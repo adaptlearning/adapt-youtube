@@ -1,4 +1,17 @@
-<div class="youtube-inner component-inner">
+<div class="youtube-inner component-inner" role="region" aria-label="{{_accessibility._ariaRegions.media}}">
 	{{> component this}}
-	<iframe width="560" height="315" src="{{_source}}?&autoplay={{#if _isAutoPlay}}1{{else}}0{{/if}}&rel={{#if _isShowRelated}}1{{else}}0{{/if}}&loop={{#if _isLoop}}1{{else}}0{{/if}}&modestbranding={{#if _isModestBranding}}1{{else}}0{{/if}}&hd={{#if _isHD}}1{{else}}0{{/if}}&autohide={{#if _isAutoHideControls}}1{{else}}0{{/if}}&color={{#if _progressColor}}{{_progressColor}}{{/if}}&controls=1&enablejsapi=1&playsinline=1&showinfo=0&theme=light&iv_load_policy={{#if _isShowClosedCaptions}}1{{else}}3{{/if}}" frameborder="0" {{#if _isAllowFullscreen}}allowfullscreen{{/if}}></iframe>
+	<div class="youtube-widget component-widget">
+		<iframe width="640px" height="360px" style="width:100%;" src="{{_media._source}}?&autoplay={{#if _media._isAutoPlay}}1{{else}}0{{/if}}&rel={{#if _media._isShowRelated}}1{{else}}0{{/if}}&loop={{#if _isLoop}}1{{else}}0{{/if}}&modestbranding={{#if _media._isModestBranding}}1{{else}}0{{/if}}&hd={{#if _media._isHD}}1{{else}}0{{/if}}&autohide={{#if _media._isAutoHideControls}}1{{else}}0{{/if}}&color={{#if _media._progressColor}}{{_media._progressColor}}{{/if}}&controls=3&enablejsapi=1&playsinline=1&showinfo=0&theme={{#if _media._isLightTheme}}light{{else}}dark{{/if}}&iv_load_policy={{#if _media._isShowClosedCaptions}}1{{else}}3{{/if}}" frameborder="0" {{#if _media._isAllowFullscreen}}allowfullscreen{{/if}}></iframe>
+		{{#if _media.transcriptLink}}
+	    <div class="youtube-transcript-container" role="document">
+	      <a href="{{_media.transcriptLink}}" target="_blank" class="media-transcript">
+	        {{#if _media.transcriptText}}
+	          {{_media.transcriptText}}
+	        {{else}}
+	          {{_media.transcriptLink}}
+	        {{/if}}
+	      </a>
+	    </div>
+	    {{/if}}
+	</div>
 </div>

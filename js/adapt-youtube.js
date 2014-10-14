@@ -11,8 +11,18 @@ define(function(require) {
 
     var youtube = ComponentView.extend({
         
-        preRender: function() {
 
+        preRender: function() {
+            this.listenTo(Adapt, 'device:resize', this.onScreenSizeChanged);
+            this.listenTo(Adapt, 'device:changed', this.onDeviceChanged);
+        },
+
+        onScreenSizeChanged: function() {
+            this.$('iframe').width(this.$('.component-widget').width());
+        },
+
+        onDeviceChanged: function() {
+            this.$('iframe').width(this.$('.component-widget').width());
         },
 
         postRender: function() {
