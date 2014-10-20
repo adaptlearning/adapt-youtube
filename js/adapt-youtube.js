@@ -26,11 +26,25 @@ define(function(require) {
         },
 
         postRender: function() {
+            //FOR HTML/HBS Paramenters: https://developers.google.com/youtube/player_parameters
         	this.setReadyStatus();
             this.setupEventListeners();
         },
 
-        inview: function(event, visible, visiblePartX, visiblePartY) {
+    
+        setupEventListeners: function() {
+            //Completion events play/inview
+            this.completionEvent = (!this.model.get('_setCompletionOn')) ? 'play' : this.model.get('_setCompletionOn');
+            if (this.completionEvent !== "inview") {
+                //TODO: youtube on play completion using https://developers.google.com/youtube/iframe_api_reference
+                //calback to this.onCompletion
+
+            } else {
+                this.$('.component-widget').on('inview', _.bind(this.onInview, this));
+            }
+        },
+
+        onInview: function(event, visible, visiblePartX, visiblePartY) {
             if (visible) {
                 if (visiblePartY === 'top') {
                     this._isVisibleTop = true;
@@ -49,20 +63,8 @@ define(function(require) {
             }
         },
 
-        setupEventListeners: function() {
-            this.completionEvent = (!this.model.get('_setCompletionOn')) ? 'play' : this.model.get('_setCompletionOn');
-            if (this.completionEvent !== "inview") {
-                //this.mediaElement.addEventListener(this.completionEvent, _.bind(this.onCompletion, this));
-                
-            } else {
-                this.$('.component-widget').on('inview', _.bind(this.inview, this));
-            }
-        },
-
         onCompletion: function() {
             this.setCompletionStatus();
-            // removeEventListener needs to pass in the method to remove the event in firefox and IE10
-            this.mediaElement.removeEventListener(this.completionEvent, this.onCompletion);
         }
         
     });
