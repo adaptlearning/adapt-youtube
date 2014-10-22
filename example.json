@@ -9,8 +9,9 @@
     "displayTitle": "What’s coming next?",
     "body": "Find out what’s on the roadmap for 2014 for Adapt Learning.",
     "instruction":"",
+    "_setCompletionOn": "play",
     "_media": {
-        "_source": "http://www.youtube.com/embed/YiQWgWiwBqc",
+        "_source": "https://www.youtube.com/embed/YiQWgWiwBqc",
         "_isAutoPlay": false,
         "_isShowRelated": false,
         "_isLoop": false,

@@ -86,7 +86,7 @@ define(function(require) {
         },
 
         onPlayerStateChange: function(event) {
-            if (event.data == YT.PlayerState.ENDED) this.onCompletion();
+            if (event.data == YT.PlayerState.PLAYING) this.onCompletion();
         },
 
         onCompletion: function() {
