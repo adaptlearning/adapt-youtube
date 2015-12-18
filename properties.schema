@@ -1,0 +1,145 @@
+{
+  "type":"object",
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "id": "http://jsonschema.net",
+  "$ref": "http://localhost/plugins/content/component/model.schema",
+  "globals": {
+    "ariaRegion": {
+      "type": "string",
+      "required": true,
+      "default": "This is a media component which plays a video. Select the play / pause button to watch or listen.",
+      "inputType": "Text",
+      "validators": []
+    },
+    "transcriptButton": {
+      "type": "string",
+      "required": false,
+      "default": "Alternatively you can select the link below for the transcript.",
+      "inputType": "Text",
+      "validators": []
+    }
+  },
+  "properties":{
+    "_supportedLayout": {
+      "type": "string",
+      "required": true,
+      "enum": ["full-width", "half-width", "both"],
+      "default": "both",
+      "editorOnly": true
+    },
+    "instruction": {
+      "type": "string",
+      "required": false,
+      "default": "",
+      "inputType": "Text",
+      "validators": [],
+      "help": "This is the instruction text"
+    },
+    "_setCompletionOn": {
+      "type":"string",
+      "required":true,
+      "enum": ["inview", "play", "ended"],
+      "default": "inview",
+      "title": "Set completion of Video on",
+      "inputType": {"type": "Select", "options":["inview", "play", "ended"]},
+      "validators": ["required"],
+      "help": "This tells Adapt when to set this video to complete"
+    }
+    "_media": {
+      "type":"object",
+      "required":true,
+      "title": "Media settings",
+      "properties":{
+        "source": {
+          "type":"string",
+          "required":true,
+          "default": "//www.youtube.com/embed/6qzOMCIlzt4",
+          "title": "Source URL",
+          "inputType": "Text",
+          "validators": [],
+          "help": "The 'embed' URL of the YouTube video you want to be displayed"
+        },
+        "source": {
+          "type":"number",
+          "required":false,
+          "default": "1.778",
+          "title": "Aspect ratio",
+          "inputType": "Text",
+          "validators": [],
+          "help": "The aspect ratio of the video as a decimal number. If the aspect ratio is 16:9 then you calculate the decimal version by dividing 16 by 9 i.e. 1.778. 4:3 aspect ratio is 1.33"
+        },
+        "_autoplay": {
+          "type":"boolean",
+          "required":false,
+          "default": "false",
+          "title": "Autoplay",
+          "inputType": {"type": "Boolean", "options": [true, false]},
+          "validators": [],
+          "help": "Specifies whether or not the video will automatically start to play when the player loads (not supported on iOS)."
+        },
+        "_showRelated": {
+          "type":"boolean",
+          "required":false,
+          "default": "false",
+          "title": "Show related videos",
+          "inputType": {"type": "Boolean", "options": [true, false]},
+          "validators": [],
+          "help": "Indicates whether the player should show related videos when playback of the initial video ends"
+        },
+        "_loop": {
+          "type":"boolean",
+          "required":false,
+          "default": "false",
+          "title": "Loop",
+          "inputType": {"type": "Boolean", "options": [true, false]},
+          "validators": [],
+          "help": "Whether to play the video on a loop or not."
+        },
+        "_modestBranding": {
+          "type":"boolean",
+          "required":false,
+          "default": "true",
+          "title": "Modest branding",
+          "inputType": {"type": "Boolean", "options": [true, false]},
+          "validators": [],
+          "help": "This parameter lets you use a YouTube player that does not show a YouTube logo. Set to true to prevent the YouTube logo from displaying in the control bar. Note that a small YouTube text label will still display in the upper-right corner of a paused video when the user's mouse pointer hovers over the player."
+        },
+        "_playbackQuality": {
+          "type":"string",
+          "required":false,
+          "default": "default",
+          "title": "Playback quality",
+          "enum": ["default", "small", "medium", "large", "hd720", "hd1080", "highres"],
+          "inputType": {
+            "type": "Select",
+            "options": ["default", "small", "medium", "large", "hd720", "hd1080", "highres"]
+          },
+          "validators": [],
+          "help": "The suggested video quality for the video. You should select a playback quality that corresponds to the size of your video player. For example, if your page displays a 1280px by 720px video player, a hd720 quality video will actually look better than an hd1080 quality video."
+        },
+        "_showAnnotations": {
+          "type":"boolean",
+          "required":false,
+          "default": "false",
+          "title": "Video annotations",
+          "inputType": {"type": "Boolean", "options": [true, false]},
+          "validators": [],
+          "help": "Whether video annotations should be shown or not."
+        },
+        "_progressColor": {
+          "type":"string",
+          "required":false,
+          "default": "default",
+          "title": "Progress bar color",
+          "enum": ["red", "white"],
+          "inputType": {
+            "type": "Select",
+            "options": ["red", "white"]
+          },
+          "validators": [],
+          "help": "The colour that will be used in the player's video progress bar to highlight the amount of the video that the viewer has already seen. Setting this 'white' will disable the 'modest branding' option."
+        }
+      }
+    }
+  }
+}

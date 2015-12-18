@@ -1,11 +1,15 @@
 {
   "name": "adapt-youtube",
-  "version": "0.0.0",
+  "version": "2.0.0",
+  "framework": "^2.0.0",
   "homepage": "https://github.com/cgkineo/adapt-youtube",
+  "displayName": "YouTube Player",
+  "component": "youtube",
   "authors": [
-    "Oliver Foster <oliver.foster@kineo.com>"
+    "Oliver Foster <oliver.foster@kineo.com>",
+		"Matt Leathes <matt.leathes@kineo.com>"
   ],
-  "description": "Embedded youtube videos (accessibilty bonus)",
+  "description": "YouTube Player for Adapt",
   "main": "/js/adapt-youtube.js",
   "keywords": [
     "adapt-plugin",

@@ -2,7 +2,7 @@
 * adapt-youtube
 * Version - 0.0.0
 * License - http://github.com/adaptlearning/adapt_framework/LICENSE
-* Maintainers - Oliver Foster <oliver.foster@kineo.com>
+* Maintainers - Oliver Foster <oliver.foster@kineo.com>, Matt Leathes <matt.leathes@kineo.com>
 */
 define(function(require) {
 
@@ -25,22 +25,25 @@ define(function(require) {
                     Adapt.youTubeIframeAPIReady = true;
                     Adapt.trigger('youTubeIframeAPIReady');
                 };
-                $.getScript('https://www.youtube.com/iframe_api');
+                $.getScript('//www.youtube.com/iframe_api');
             }
         },
 
         preRender: function() {
-            this.listenTo(Adapt, 'device:resize', this.onScreenSizeChanged);
-            this.listenTo(Adapt, 'device:changed', this.onDeviceChanged);
+            this.listenTo(Adapt, 'device:resize', this.setIFrameSize);
+            this.listenTo(Adapt, 'device:changed', this.setIFrameSize);
         },
 
-        onScreenSizeChanged: function() {
-            this.$('iframe').width(this.$('.component-widget').width());
-        },
+		setIFrameSize: function () {
+			
+			this.$('iframe').width(this.$('.component-widget').width());
 
-        onDeviceChanged: function() {
-            this.$('iframe').width(this.$('.component-widget').width());
-        },
+            var aspectRatio = (this.model.get("_media")._aspectRatio ? parseFloat(this.model.get("_media")._aspectRatio) : 1.778);//default to 16:9 if not specified
+            
+			if (!isNaN(aspectRatio)) {
+                this.$('iframe').height(this.$('.component-widget').width() / aspectRatio);
+            }
+		},
 
         postRender: function() {
             //FOR HTML/HBS Paramenters: https://developers.google.com/youtube/player_parameters
@@ -49,14 +52,12 @@ define(function(require) {
         },
     
         setupEventListeners: function() {
-            //Completion events play/inview
             this.completionEvent = (!this.model.get('_setCompletionOn')) ? 'play' : this.model.get('_setCompletionOn');
-            if (this.completionEvent !== "inview") {
-                //https://developers.google.com/youtube/iframe_api_reference
-                this.player.addEventListener('onStateChange', _.bind(this.onPlayerStateChange, this));
-            } else {
+            if (this.completionEvent === "inview") {
                 this.$('.component-widget').on('inview', _.bind(this.onInview, this));
             }
+
+            this.listenTo(Adapt, 'YouTubePlayBackStart', this.onYouTubePlaybackStart)
         },
 
         onInview: function(event, visible, visiblePartX, visiblePartY) {
@@ -74,27 +75,77 @@ define(function(require) {
                     this.$('.component-inner').off('inview');
                     this.setCompletionStatus();
                 }
-                
             }
         },
 
         onYouTubeIframeAPIReady: function() {
-            console.info('onYouTubeIframeAPIReady');
-            this.player = new YT.Player(this.$('iframe').get(0));
-            this.setReadyStatus();
-            this.setupEventListeners();
+            //console.info('onYouTubeIframeAPIReady');
+			this.player = new YT.Player(this.$('iframe').get(0), {
+                events: {
+                    'onStateChange': _.bind(this.onPlayerStateChange, this),
+                    'onReady': _.bind(this.onPlayerReady, this)
+                }
+            });
+
+            this.isPlaying = false;
+            
+			this.setReadyStatus();
+            
+			this.setupEventListeners();
+			
+			this.setIFrameSize();
         },
 
+        /**
+        * if another YouTube video starts playback whilst this one is playing, pause this one.
+        * prevents user from playing multiple videos on the page at the same time
+        */
+        onYouTubePlaybackStart: function(component) {
+            if(component != this && this.isPlaying) {
+                this.player.pauseVideo();
+            }
+        },
+
+        onPlayerReady: function() {
+            if (this.model.get("_media")._playbackQuality) this.player.setPlaybackQuality(_playbackQuality);
+        },
+
+        /**
+        * this seems to have issues in Chrome if the user is logged into YouTube (possibly any Google account) - the API just doesn't broadcast the events
+        * but instead throws the error:
+        * Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('https://www.youtube.com') does not match the recipient window's origin ('http://www.youtube.com').
+        * This is documented here:
+        *   https://code.google.com/p/gdata-issues/issues/detail?id=5788
+        * but I haven't managed to get any of the workarounds to work... :-(
+        */
         onPlayerStateChange: function(event) {
-            if (event.data == YT.PlayerState.PLAYING) this.onCompletion();
-        },
+            switch(event.data) {
+                case YT.PlayerState.PLAYING:
+                    Adapt.trigger('YouTubePlayBackStart', this);
+                    
+                    this.isPlaying = true;
 
-        onCompletion: function() {
-            this.setCompletionStatus();
+                    if(this.model.get('_setCompletionOn') && this.model.get('_setCompletionOn') === "play") {
+                        this.setCompletionStatus();
+                    }
+                break;
+                case YT.PlayerState.PAUSED:
+                    this.isPlaying = false;
+                break;
+                case YT.PlayerState.ENDED:
+                    if(this.model.get('_setCompletionOn') && this.model.get('_setCompletionOn') === "ended") {
+                        this.setCompletionStatus();
+                    }
+                break;
+            }
+            //console.log("this.onPlayerStateChange: " + this.isPlaying);
         }
-        
+    },{
+        template: 'youtube'
     });
     
     Adapt.register("youtube", youtube );
+
+    return youtube;
     
 });
