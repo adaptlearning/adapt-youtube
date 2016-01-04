@@ -7,7 +7,7 @@
     "ariaRegion": {
       "type": "string",
       "required": true,
-      "default": "This is a media component which plays a video. Select the play / pause button to watch or listen.",
+      "default": "This is a media component which displays a YouTube video. Select the play / pause button to watch it.",
       "inputType": "Text",
       "validators": []
     },
@@ -50,7 +50,7 @@
       "required":true,
       "title": "Media settings",
       "properties":{
-        "source": {
+        "_source": {
           "type":"string",
           "required":true,
           "default": "//www.youtube.com/embed/6qzOMCIlzt4",
@@ -59,7 +59,7 @@
           "validators": [],
           "help": "The 'embed' URL of the YouTube video you want to be displayed"
         },
-        "source": {
+        "_aspectRatio": {
           "type":"number",
           "required":false,
           "default": "1.778",
