@@ -1,6 +1,5 @@
 /*
 * adapt-youtube
-* Version - 0.0.0
 * License - http://github.com/adaptlearning/adapt_framework/LICENSE
 * Maintainers - Oliver Foster <oliver.foster@kineo.com>, Matt Leathes <matt.leathes@kineo.com>
 */
@@ -18,6 +17,8 @@ define(function(require) {
 
         initialize: function() {
             ComponentView.prototype.initialize.apply(this);
+
+            _.bindAll(this, 'onPlayerStateChange', 'onPlayerReady', 'onInview');
 
             if (window.onYouTubeIframeAPIReady === undefined) {
                 window.onYouTubeIframeAPIReady = function() {
@@ -47,17 +48,29 @@ define(function(require) {
 
         postRender: function() {
             //FOR HTML/HBS Paramenters: https://developers.google.com/youtube/player_parameters
-            if (Adapt.youTubeIframeAPIReady === true) this.onYouTubeIframeAPIReady();
-            else Adapt.once('youTubeIframeAPIReady', this.onYouTubeIframeAPIReady, this)
+            if (Adapt.youTubeIframeAPIReady === true) {
+                this.onYouTubeIframeAPIReady();
+            } else {
+                Adapt.once('youTubeIframeAPIReady', this.onYouTubeIframeAPIReady, this)
+            }
+        },
+
+        remove: function() {
+            if(this.player != null) {
+                this.player.destroy();
+            }
+
+            ComponentView.prototype.remove.call(this);
         },
     
         setupEventListeners: function() {
             this.completionEvent = (!this.model.get('_setCompletionOn')) ? 'play' : this.model.get('_setCompletionOn');
             if (this.completionEvent === "inview") {
-                this.$('.component-widget').on('inview', _.bind(this.onInview, this));
+                this.$('.component-widget').on('inview', this.onInview);
             }
 
-            this.listenTo(Adapt, 'YouTubePlayBackStart', this.onYouTubePlaybackStart)
+            // add listener for other youtube components on the page, so that we can prevent multiple video playback
+            this.listenTo(Adapt, 'adapt-youtube:playbackstart', this.onYouTubePlaybackStart)
         },
 
         onInview: function(event, visible, visiblePartX, visiblePartY) {
@@ -82,8 +95,8 @@ define(function(require) {
             //console.info('onYouTubeIframeAPIReady');
 			this.player = new YT.Player(this.$('iframe').get(0), {
                 events: {
-                    'onStateChange': _.bind(this.onPlayerStateChange, this),
-                    'onReady': _.bind(this.onPlayerReady, this)
+                    'onStateChange': this.onPlayerStateChange,
+                    'onReady': this.onPlayerReady
                 }
             });
 
@@ -107,7 +120,9 @@ define(function(require) {
         },
 
         onPlayerReady: function() {
-            if (this.model.get("_media")._playbackQuality) this.player.setPlaybackQuality(_playbackQuality);
+            if (this.model.get("_media")._playbackQuality) {
+                this.player.setPlaybackQuality(this.model.get("_media")._playbackQuality);
+            }
         },
 
         /**
@@ -121,7 +136,7 @@ define(function(require) {
         onPlayerStateChange: function(event) {
             switch(event.data) {
                 case YT.PlayerState.PLAYING:
-                    Adapt.trigger('YouTubePlayBackStart', this);
+                    Adapt.trigger('adapt-youtube:playbackstart', this);
                     
                     this.isPlaying = true;
 
@@ -147,5 +162,4 @@ define(function(require) {
     Adapt.register("youtube", youtube );
 
     return youtube;
-    
 });

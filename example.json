@@ -12,7 +12,7 @@
     "_setCompletionOn": "play",
     "_media": {
         "_source": "//www.youtube.com/embed/mDa42EkgO1A",
-				"_aspectRatio": 1.33,
+        "_aspectRatio": 1.33,
         "_autoplay": false,
         "_showRelated": false,
         "_loop": false,
