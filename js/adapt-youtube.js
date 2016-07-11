@@ -5,8 +5,8 @@
 */
 define(function(require) {
 
-	var ComponentView = require('coreViews/componentView');
-	var Adapt = require('coreJS/adapt');
+    var ComponentView = require('coreViews/componentView');
+    var Adapt = require('coreJS/adapt');
 
     var youtube = ComponentView.extend({
         defaults:function() {
@@ -35,16 +35,14 @@ define(function(require) {
             this.listenTo(Adapt, 'device:changed', this.setIFrameSize);
         },
 
-		setIFrameSize: function () {
-			
-			this.$('iframe').width(this.$('.component-widget').width());
-
-            var aspectRatio = (this.model.get("_media")._aspectRatio ? parseFloat(this.model.get("_media")._aspectRatio) : 1.778);//default to 16:9 if not specified
+        setIFrameSize: function () {
+            this.$('iframe').width(this.$('.component-widget').width());
             
-			if (!isNaN(aspectRatio)) {
+            var aspectRatio = (this.model.get("_media")._aspectRatio ? parseFloat(this.model.get("_media")._aspectRatio) : 1.778);//default to 16:9 if not specified
+            if (!isNaN(aspectRatio)) {
                 this.$('iframe').height(this.$('.component-widget').width() / aspectRatio);
             }
-		},
+        },
 
         postRender: function() {
             //FOR HTML/HBS Paramenters: https://developers.google.com/youtube/player_parameters
@@ -93,7 +91,7 @@ define(function(require) {
 
         onYouTubeIframeAPIReady: function() {
             //console.info('onYouTubeIframeAPIReady');
-			this.player = new YT.Player(this.$('iframe').get(0), {
+	    this.player = new YT.Player(this.$('iframe').get(0), {
                 events: {
                     'onStateChange': this.onPlayerStateChange,
                     'onReady': this.onPlayerReady
@@ -102,11 +100,11 @@ define(function(require) {
 
             this.isPlaying = false;
             
-			this.setReadyStatus();
+            this.setReadyStatus();
             
-			this.setupEventListeners();
-			
-			this.setIFrameSize();
+            this.setupEventListeners();
+            
+            this.setIFrameSize();
         },
 
         /**
@@ -155,7 +153,8 @@ define(function(require) {
             }
             //console.log("this.onPlayerStateChange: " + this.isPlaying);
         }
-    },{
+    },
+    {
         template: 'youtube'
     });
     
