@@ -9,14 +9,16 @@
       "required": true,
       "default": "This is a media component which displays a YouTube video. Select the play / pause button to watch it.",
       "inputType": "Text",
-      "validators": []
+      "validators": [],
+      "translatable": true
     },
     "transcriptButton": {
       "type": "string",
       "required": false,
       "default": "Alternatively you can select the link below for the transcript.",
       "inputType": "Text",
-      "validators": []
+      "validators": [],
+      "translatable": true
     }
   },
   "properties":{
@@ -138,6 +140,84 @@
           },
           "validators": [],
           "help": "The colour that will be used in the player's video progress bar to highlight the amount of the video that the viewer has already seen. Setting this 'white' will disable the 'modest branding' option."
+        }
+      }
+    },
+    "_transcript": {
+      "type":"object",
+      "required":false,
+      "title": "Transcript Options",
+      "properties":{
+        "_setCompletionOnView": {
+          "type":"boolean",
+          "required":false,
+          "default": true,
+          "title": "Set Completion",
+          "inputType": {"type": "Boolean", "options": [true, false]},
+          "validators": [],
+          "help": "This tells to set this video to complete when the inline transcript is shown"
+        },
+        "_inlineTranscript": {
+          "type":"boolean",
+          "required":false,
+          "default": false,
+          "title": "Show Inline",
+          "inputType": {"type": "Boolean", "options": [true, false]},
+          "validators": []
+        },
+        "_externalTranscript": {
+          "type":"boolean",
+          "required":false,
+          "default": false,
+          "title": "Show Link",
+          "inputType": {"type": "Boolean", "options": [true, false]},
+          "validators": []
+        },
+        "inlineTranscriptButton": {
+          "type": "string",
+          "required": false,
+          "default": "",
+          "title": "Inline Open Button",
+          "inputType": "Text",
+          "validators": [],
+          "translatable": true
+        },
+        "inlineTranscriptCloseButton": {
+          "type": "string",
+          "required": false,
+          "default": "",
+          "title": "Inline Close Button",
+          "inputType": "Text",
+          "validators": [],
+          "translatable": true
+        },
+        "inlineTranscriptBody": {
+          "type":"string",
+          "required":false,
+          "default": "",
+          "title": "Inline Transcript",
+          "inputType": "TextArea",
+          "validators": [],
+          "help": "Optional text appears below the video",
+          "translatable": true
+        },
+        "transcriptLinkButton": {
+          "type": "string",
+          "required": false,
+          "default": "",
+          "title": "Link Open Button",
+          "inputType": "Text",
+          "validators": [],
+          "translatable": true
+        },
+        "transcriptLink": {
+          "type":"string",
+          "required":false,
+          "default": "",
+          "title": "Transcript Link",
+          "inputType": "Asset:other",
+          "validators": [],
+          "help": "Select a file for the transcript link"
         }
       }
     }
