@@ -2,16 +2,43 @@
 	{{> component this}}
 	<div class="youtube-widget component-widget">
 		<iframe width="640px" height="360px" style="width:100%;" src="{{_media._source}}?&autoplay={{#if _media._autoplay}}1{{else}}0{{/if}}&rel={{#if _media._showRelated}}1{{else}}0{{/if}}&loop={{#if _loop}}1{{else}}0{{/if}}&modestbranding={{#if _media._modestBranding}}1{{else}}0{{/if}}&color={{#if _media._progressColor}}{{_media._progressColor}}{{/if}}&controls=3&enablejsapi=1&playsinline=1&showinfo=0&iv_load_policy={{#if _media._showAnnotations}}1{{else}}3{{/if}}" frameborder="0" {{#if _media._allowFullscreen}}allowfullscreen{{/if}}></iframe>
-		{{#if _media.transcriptLink}}
-	    <div class="youtube-transcript-container" role="document">
-	      <a href="{{_media.transcriptLink}}" target="_blank" class="media-transcript">
-	        {{#if _media.transcriptText}}
-	          <span tabindex="0">{{_media.transcriptText}}</span>
-	        {{else}}
-	          <span tabindex="0">{{_media.transcriptLink}}</span>
-	        {{/if}}
-	      </a>
-	    </div>
-	    {{/if}}
+		{{#if _transcript}}
+		    <div class="youtube-transcript-container">
+
+		      <div class="youtube-transcript-button-container">
+			{{#if _transcript._inlineTranscript}}
+			  <button class="youtube-inline-transcript-button button" tabindex="0" role="button">
+			    <div class="transcript-text-container">
+			      {{#if _transcript.inlineTranscriptButton}}
+				{{_transcript.inlineTranscriptButton}}
+			      {{else}}
+				{{_transcript.transcriptLink}}
+			      {{/if}}
+			    </div>
+			  </button>
+			{{/if}}
+			{{#if _transcript._externalTranscript}}
+			  <button onclick="window.open('{{_transcript.transcriptLink}}')" class="youtube-external-transcript-button button" tabindex="0" role="button">
+			    <div class="transcript-text-container">
+			      {{#if _transcript.transcriptLinkButton}}
+				{{_transcript.transcriptLinkButton}}
+			      {{else}}
+				{{_transcript.transcriptLink}}
+			      {{/if}}
+			    </div>
+			  </button>
+			{{/if}}
+			</div>
+
+			{{#if _transcript._inlineTranscript}}
+			  <div class="youtube-inline-transcript-body-container">
+			    <div class="youtube-inline-transcript-body" tabindex="0">
+			    {{{a11y_text _transcript.inlineTranscriptBody}}}
+			    </div>
+			  </div>
+			{{/if}}
+
+		    </div>
+		{{/if}}
 	</div>
 </div>
