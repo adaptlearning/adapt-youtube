@@ -6,9 +6,9 @@
 	    <div class="youtube-transcript-container" role="document">
 	      <a href="{{_media.transcriptLink}}" target="_blank" class="media-transcript">
 	        {{#if _media.transcriptText}}
-	          {{_media.transcriptText}}
+	          <span tabindex="0">{{_media.transcriptText}}</span>
 	        {{else}}
-	          {{_media.transcriptLink}}
+	          <span tabindex="0">{{_media.transcriptLink}}</span>
 	        {{/if}}
 	      </a>
 	    </div>
