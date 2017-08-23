@@ -10,7 +10,7 @@
         "Oliver Foster <oliver.foster@kineo.com>",
         "Matt Leathes <matt.leathes@kineo.com>"
     ],
-    "description": "YouTube Player for Adapt",
+    "description": "YouTube Player",
     "main": "/js/adapt-youtube.js",
     "keywords": [
         "adapt-plugin",
