@@ -55,7 +55,7 @@
         "_source": {
           "type":"string",
           "required":true,
-          "default": "//www.youtube.com/embed/6qzOMCIlzt4",
+          "default": "//www.youtube.com/embed/SdaPaxxNdu0",
           "title": "Source URL",
           "inputType": "Text",
           "validators": [],
