@@ -3,16 +3,16 @@
 * License - http://github.com/adaptlearning/adapt_framework/LICENSE
 * Maintainers - Oliver Foster <oliver.foster@kineo.com>, Matt Leathes <matt.leathes@kineo.com>
 */
-define(function(require) {
-
-    var ComponentView = require('coreViews/componentView');
-    var Adapt = require('coreJS/adapt');
+define([
+    'core/js/adapt',
+    'core/js/views/componentView'
+],function(Adapt, ComponentView) {
 
     var youtube = ComponentView.extend({
         defaults:function() {
             return {
-                player:null
-            }
+                player: null
+            };
         },
 
         initialize: function() {
@@ -31,16 +31,22 @@ define(function(require) {
         },
 
         preRender: function() {
-            this.listenTo(Adapt, 'device:resize', this.setIFrameSize);
-            this.listenTo(Adapt, 'device:changed', this.setIFrameSize);
+            this.listenTo(Adapt, {
+                'device:resize': this.setIFrameSize,
+                'device:changed': this.setIFrameSize,
+                'media:stop': this.onMediaStop
+            });
         },
 
         setIFrameSize: function () {
-            this.$('iframe').width(this.$('.component-widget').width());
+            var $iframe = this.$('iframe');
+            var widgetWidth = this.$('.component-widget').width();
+
+            $iframe.width(widgetWidth);
             
             var aspectRatio = (this.model.get("_media")._aspectRatio ? parseFloat(this.model.get("_media")._aspectRatio) : 1.778);//default to 16:9 if not specified
             if (!isNaN(aspectRatio)) {
-                this.$('iframe').height(this.$('.component-widget').width() / aspectRatio);
+                $iframe.height(widgetWidth / aspectRatio);
             }
         },
 
@@ -49,12 +55,12 @@ define(function(require) {
             if (Adapt.youTubeIframeAPIReady === true) {
                 this.onYouTubeIframeAPIReady();
             } else {
-                Adapt.once('youTubeIframeAPIReady', this.onYouTubeIframeAPIReady, this)
+                Adapt.once('youTubeIframeAPIReady', this.onYouTubeIframeAPIReady, this);
             }
         },
 
         remove: function() {
-            if(this.player != null) {
+            if(this.player !== null) {
                 this.player.destroy();
             }
 
@@ -66,9 +72,6 @@ define(function(require) {
             if (this.completionEvent === "inview") {
                 this.$('.component-widget').on('inview', this.onInview);
             }
-
-            // add listener for other youtube components on the page, so that we can prevent multiple video playback
-            this.listenTo(Adapt, 'adapt-youtube:playbackstart', this.onYouTubePlaybackStart)
         },
 
         onInview: function(event, visible, visiblePartX, visiblePartY) {
@@ -91,7 +94,7 @@ define(function(require) {
 
         onYouTubeIframeAPIReady: function() {
             //console.info('onYouTubeIframeAPIReady');
-	    this.player = new YT.Player(this.$('iframe').get(0), {
+	        this.player = new YT.Player(this.$('iframe').get(0), {
                 events: {
                     'onStateChange': this.onPlayerStateChange,
                     'onReady': this.onPlayerReady
@@ -107,12 +110,11 @@ define(function(require) {
             this.setIFrameSize();
         },
 
-        /**
-        * if another YouTube video starts playback whilst this one is playing, pause this one.
-        * prevents user from playing multiple videos on the page at the same time
-        */
-        onYouTubePlaybackStart: function(component) {
-            if(component != this && this.isPlaying) {
+        onMediaStop: function(view) {
+            // if it was this view that triggered the media:stop event, ignore it
+            if (view && view.cid === this.cid) return;
+
+            if(this.isPlaying) {
                 this.player.pauseVideo();
             }
         },
@@ -134,7 +136,7 @@ define(function(require) {
         onPlayerStateChange: function(event) {
             switch(event.data) {
                 case YT.PlayerState.PLAYING:
-                    Adapt.trigger('adapt-youtube:playbackstart', this);
+                    Adapt.trigger("media:stop", this);
                     
                     this.isPlaying = true;
 
@@ -158,7 +160,7 @@ define(function(require) {
         template: 'youtube'
     });
     
-    Adapt.register("youtube", youtube );
+    Adapt.register("youtube", youtube);
 
     return youtube;
 });
