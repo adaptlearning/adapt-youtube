@@ -94,7 +94,7 @@ define([
 
         onYouTubeIframeAPIReady: function() {
             //console.info('onYouTubeIframeAPIReady');
-	        this.player = new YT.Player(this.$('iframe').get(0), {
+            this.player = new YT.Player(this.$('iframe').get(0), {
                 events: {
                     'onStateChange': this.onPlayerStateChange,
                     'onReady': this.onPlayerReady
