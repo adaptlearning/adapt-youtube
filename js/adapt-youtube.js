@@ -9,7 +9,7 @@ define([
 ],function(Adapt, ComponentView) {
 
     var youtube = ComponentView.extend({
-        defaults:function() {
+        defaults: function() {
             return {
                 player: null
             };
