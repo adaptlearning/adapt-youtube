@@ -1,5 +1,5 @@
 {
-  "type":"object",
+  "type": "object",
   "$schema": "http://json-schema.org/draft-04/schema",
   "id": "http://jsonschema.net",
   "$ref": "http://localhost/plugins/content/component/model.schema",
@@ -21,7 +21,7 @@
       "translatable": true
     }
   },
-  "properties":{
+  "properties": {
     "_supportedLayout": {
       "type": "string",
       "required": true,
@@ -38,8 +38,8 @@
       "help": "This is the instruction text"
     },
     "_setCompletionOn": {
-      "type":"string",
-      "required":true,
+      "type": "string",
+      "required": true,
       "enum": ["inview", "play", "ended"],
       "default": "inview",
       "title": "Set completion of Video on",
@@ -48,21 +48,21 @@
       "help": "Tells when to set this video to complete"
     },
     "_media": {
-      "type":"object",
-      "required":true,
+      "type": "object",
+      "required": true,
       "title": "Media settings",
-      "properties":{
+      "properties": {
         "_source": {
-          "type":"string",
-          "required":true,
-          "default": "//www.youtube.com/embed/SdaPaxxNdu0",
+          "type": "string",
+          "required": true,
+          "default": "//www.youtube.com/embed/6qzOMCIlzt4",
           "title": "Source URL",
           "inputType": "Text",
           "validators": [],
           "help": "The 'embed' URL of the YouTube video you want to be displayed"
         },
         "_aspectRatio": {
-          "type":"number",
+          "type": "number",
           "required":false,
           "default": "1.778",
           "title": "Aspect ratio",
@@ -71,38 +71,38 @@
           "help": "The aspect ratio of the video as a decimal number. If the aspect ratio is 16:9 then you calculate the decimal version by dividing 16 by 9 i.e. 1.778. 4:3 aspect ratio is 1.33"
         },
         "_autoplay": {
-          "type":"boolean",
+          "type": "boolean",
           "required":false,
           "default": "false",
           "title": "Autoplay",
-          "inputType": {"type": "Boolean", "options": [true, false]},
+          "inputType": "Checkbox",
           "validators": [],
           "help": "Specifies whether or not the video will automatically start to play when the player loads (not supported on iOS)."
         },
         "_showRelated": {
-          "type":"boolean",
+          "type": "boolean",
           "required":false,
           "default": "false",
           "title": "Show related videos",
-          "inputType": {"type": "Boolean", "options": [true, false]},
+          "inputType": "Checkbox",
           "validators": [],
           "help": "Indicates whether the player should show related videos when playback of the initial video ends"
         },
         "_loop": {
-          "type":"boolean",
+          "type": "boolean",
           "required":false,
           "default": "false",
           "title": "Loop",
-          "inputType": {"type": "Boolean", "options": [true, false]},
+          "inputType": "Checkbox",
           "validators": [],
           "help": "Whether to play the video on a loop or not."
         },
         "_modestBranding": {
-          "type":"boolean",
+          "type": "boolean",
           "required":false,
           "default": "true",
           "title": "Modest branding",
-          "inputType": {"type": "Boolean", "options": [true, false]},
+          "inputType": "Checkbox",
           "validators": [],
           "help": "This parameter lets you use a YouTube player that does not show a YouTube logo. Set to true to prevent the YouTube logo from displaying in the control bar. Note that a small YouTube text label will still display in the upper-right corner of a paused video when the user's mouse pointer hovers over the player."
         },
@@ -116,7 +116,7 @@
           "help": "This parameter lets you use the fullscreen function on a Youtube video. When press the video will fill the screen."
         },
         "_playbackQuality": {
-          "type":"string",
+          "type": "string",
           "required":false,
           "default": "default",
           "title": "Playback quality",
@@ -129,16 +129,16 @@
           "help": "The suggested video quality for the video. You should select a playback quality that corresponds to the size of your video player. For example, if your page displays a 1280px by 720px video player, a hd720 quality video will actually look better than an hd1080 quality video."
         },
         "_showAnnotations": {
-          "type":"boolean",
+          "type": "boolean",
           "required":false,
           "default": "false",
           "title": "Video annotations",
-          "inputType": {"type": "Boolean", "options": [true, false]},
+          "inputType": "Checkbox",
           "validators": [],
           "help": "Whether video annotations should be shown or not."
         },
         "_progressColor": {
-          "type":"string",
+          "type": "string",
           "required":false,
           "default": "default",
           "title": "Progress bar color",
