@@ -106,6 +106,15 @@
           "validators": [],
           "help": "This parameter lets you use a YouTube player that does not show a YouTube logo. Set to true to prevent the YouTube logo from displaying in the control bar. Note that a small YouTube text label will still display in the upper-right corner of a paused video when the user's mouse pointer hovers over the player."
         },
+        "_allowFullscreen": {
+          "type":"boolean",
+          "required":false,
+          "default": "true",
+          "title": "Allow Fullscreen View",
+          "inputType": {"type": "Boolean", "options": [true, false]},
+          "validators": [],
+          "help": "This parameter lets you use the fullscreen function on a Youtube video. When press the video will fill the screen."
+        },
         "_playbackQuality": {
           "type":"string",
           "required":false,
