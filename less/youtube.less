@@ -1,6 +1,7 @@
 .youtube-inner {
   text-align: left;
   .youtube-widget {
+     text-align:center !important;
     .youtube-transcript-container {
       display: block;
       .youtube-transcript-button-container {
@@ -26,4 +27,8 @@
       }
     }
   }
+}
+@media (max-width: 1366px) and (min-width: 1280px) {
+  .youtube-component.component-full .youtube-inner {margin-top: 15px;}
+  .youtube-component.component-full .youtube-widget iframe {width: 924px !important; height: 520px !important;}
 }
