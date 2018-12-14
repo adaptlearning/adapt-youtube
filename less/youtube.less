@@ -1,31 +1,29 @@
-.youtube-component {
-  .youtube-transcript {
-    padding: @button-padding;
-    display: block;
-    color: @button-text-color;
-    background-color: @button-color;
-    text-decoration: none;
-    &:hover {
-      color: @button-text-hover-color;
-      background-color: @button-hover-color;
+.youtube-inner {
+  text-align: left;
+  .youtube-widget {
+    .youtube-transcript-container {
+      display: block;
+      .youtube-transcript-button-container {
+          .youtube-external-transcript-button, .youtube-inline-transcript-button {
+            width:100%;
+            display:block;
+            color: @button-text-color;
+            background-color: @button-color;
+            text-decoration: none;
+            &:hover {
+               color: @button-text-hover-color;
+               background-color: @button-hover-color;
+            }
+         }
+      }
+      .youtube-inline-transcript-body-container {
+          margin-top: 10px;
+          display: none;
+          text-align: left;
+          .youtube-inline-transcript-body {
+            padding: @component-padding;
+        }
+      }
     }
   }
-}
-
-.youtube-inline-transcript-body-container {
-    margin-top: 10px;
-    display: none;
-}
-
-.youtube-inline-transcript-body {
-    padding: @component-padding;
-}
-
-.youtube-transcript-button-container {
-    padding:1px;
-}
-
-.youtube-external-transcript-button, .youtube-inline-transcript-button {
-    width:100%;
-    display:block;
 }
