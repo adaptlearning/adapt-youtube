@@ -79,6 +79,15 @@
           "validators": [],
           "help": "Specifies whether or not the video will automatically start to play when the player loads (not supported on iOS)."
         },
+        "_controls": {
+          "type":"boolean",
+          "required":false,
+          "default": "true",
+          "title": "Show Player Controls",
+          "inputType": "Checkbox",
+          "validators": [],
+          "help": "Specifies whether or not the video will display the player controls."
+        },
         "_showRelated": {
           "type":"boolean",
           "required":false,
