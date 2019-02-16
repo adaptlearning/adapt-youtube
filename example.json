@@ -1,17 +1,19 @@
 {
     "_id": "c-35",
-    "_parentId":"b-20",
-    "_type":"component",
+    "_parentId": "b-20",
+    "_type": "component",
     "_classes": "",
     "_layout": "full",
     "_component": "youtube",
     "title": "Karle pyar karle",
     "displayTitle": "Karle pyar karle",
     "body": "The legendary Asha Bosle&hellip;",
-    "instruction":"",
+    "instruction": "",
     "_setCompletionOn": "play",
     "_media": {
         "_source": "//www.youtube.com/embed/mDa42EkgO1A",
+        "_controls": true,
+        "_allowFullscreen": true,
         "_aspectRatio": 1.33,
         "_autoplay": false,
         "_showRelated": false,
@@ -20,6 +22,16 @@
         "_playbackQuality": "hd720",
         "_showAnnotations": false,
         "_progressColor": "red"
+    },
+    "_transcript": {
+        "_setCompletionOnView": true,
+        "_inlineTranscript": true,
+        "_externalTranscript": false,
+        "inlineTranscriptButton": "Transcript",
+        "inlineTranscriptCloseButton": "Close Transcript",
+        "inlineTranscriptBody": "Transcript text should go here",
+        "transcriptLinkButton": "Transcript",
+        "transcriptLink": "assets/transcript.pdf"
     },
     "_pageLevelProgress": {
         "_isEnabled": true

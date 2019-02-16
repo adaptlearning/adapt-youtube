@@ -1,18 +1,16 @@
-/*
-* adapt-youtube
-* License - http://github.com/adaptlearning/adapt_framework/LICENSE
-* Maintainers - Oliver Foster <oliver.foster@kineo.com>, Matt Leathes <matt.leathes@kineo.com>
-*/
 define([
     'core/js/adapt',
-    'core/js/views/componentView'
-],function(Adapt, ComponentView) {
+    'core/js/views/componentView',
+    'core/js/models/componentModel'
+],function(Adapt, ComponentView, ComponentModel) {
 
-    var youtube = ComponentView.extend({
-        defaults: function() {
-            return {
-                player: null
-            };
+    var YouTubeView = ComponentView.extend({
+        player: null,
+
+        events: {
+            'click .youtube-inline-transcript-button': 'onToggleInlineTranscript',
+            'click .youtube-external-transcript-button': 'onExternalTranscriptClicked',
+            'click .js-skip-to-transcript': 'onSkipToTranscript'
         },
 
         initialize: function() {
@@ -22,7 +20,7 @@ define([
 
             if (window.onYouTubeIframeAPIReady === undefined) {
                 window.onYouTubeIframeAPIReady = function() {
-                    console.info('YouTube iframe API loaded');
+                    Adapt.log.info('YouTube iframe API loaded');
                     Adapt.youTubeIframeAPIReady = true;
                     Adapt.trigger('youTubeIframeAPIReady');
                 };
@@ -43,8 +41,8 @@ define([
             var widgetWidth = this.$('.component-widget').width();
 
             $iframe.width(widgetWidth);
-            
-            var aspectRatio = (this.model.get("_media")._aspectRatio ? parseFloat(this.model.get("_media")._aspectRatio) : 1.778);//default to 16:9 if not specified
+
+            var aspectRatio = (this.model.get('_media')._aspectRatio ? parseFloat(this.model.get('_media')._aspectRatio) : 1.778);//default to 16:9 if not specified
             if (!isNaN(aspectRatio)) {
                 $iframe.height(widgetWidth / aspectRatio);
             }
@@ -66,14 +64,15 @@ define([
 
             ComponentView.prototype.remove.call(this);
         },
-    
+
         setupEventListeners: function() {
             this.completionEvent = (!this.model.get('_setCompletionOn')) ? 'play' : this.model.get('_setCompletionOn');
-            if (this.completionEvent === "inview") {
+            if (this.completionEvent === 'inview') {
                 this.$('.component-widget').on('inview', this.onInview);
             }
         },
 
+        // TODO use the new core inview code instead (this will require FW dependency bump)
         onInview: function(event, visible, visiblePartX, visiblePartY) {
             if (visible) {
                 if (visiblePartY === 'top') {
@@ -102,11 +101,11 @@ define([
             });
 
             this.isPlaying = false;
-            
+
             this.setReadyStatus();
-            
+
             this.setupEventListeners();
-            
+
             this.setIFrameSize();
         },
 
@@ -114,14 +113,14 @@ define([
             // if it was this view that triggered the media:stop event, ignore it
             if (view && view.cid === this.cid) return;
 
-            if(this.isPlaying) {
+            if (this.isPlaying) {
                 this.player.pauseVideo();
             }
         },
 
         onPlayerReady: function() {
-            if (this.model.get("_media")._playbackQuality) {
-                this.player.setPlaybackQuality(this.model.get("_media")._playbackQuality);
+            if (this.model.get('_media')._playbackQuality) {
+                this.player.setPlaybackQuality(this.model.get('_media')._playbackQuality);
             }
         },
 
@@ -136,31 +135,86 @@ define([
         onPlayerStateChange: function(event) {
             switch(event.data) {
                 case YT.PlayerState.PLAYING:
-                    Adapt.trigger("media:stop", this);
-                    
+                    Adapt.trigger('media:stop', this);
+
+                    this.triggerGlobalEvent('play');
+
                     this.isPlaying = true;
 
-                    if(this.model.get('_setCompletionOn') && this.model.get('_setCompletionOn') === "play") {
+                    if(this.model.get('_setCompletionOn') && this.model.get('_setCompletionOn') === 'play') {
                         this.setCompletionStatus();
                     }
                 break;
                 case YT.PlayerState.PAUSED:
                     this.isPlaying = false;
+
+                    this.triggerGlobalEvent('pause');
                 break;
                 case YT.PlayerState.ENDED:
-                    if(this.model.get('_setCompletionOn') && this.model.get('_setCompletionOn') === "ended") {
+                    this.triggerGlobalEvent('ended');
+
+                    if(this.model.get('_setCompletionOn') && this.model.get('_setCompletionOn') === 'ended') {
                         this.setCompletionStatus();
                     }
                 break;
             }
-            //console.log("this.onPlayerStateChange: " + this.isPlaying);
+            //console.log('this.onPlayerStateChange: ' + this.isPlaying);
+        },
+
+        onSkipToTranscript: function() {
+            this.$('.youtube-transcript-container button').a11y_focus();
+        },
+
+        onToggleInlineTranscript: function(e) {
+            if (e) e.preventDefault();
+
+            var $transcriptBodyContainer = this.$('.youtube-inline-transcript-body-container');
+            var $button = this.$('.youtube-inline-transcript-button');
+            var $buttonText = this.$('.youtube-inline-transcript-button .transcript-text-container');
+
+            if ($transcriptBodyContainer.hasClass('inline-transcript-open')) {
+                $transcriptBodyContainer.stop(true, true).slideUp(function() {
+                    $(window).resize();
+                }).removeClass('inline-transcript-open');
+
+                $button.attr('aria-expanded', false);
+                $buttonText.html(this.model.get('_transcript').inlineTranscriptButton);
+
+                return;
+            }
+
+            $transcriptBodyContainer.stop(true, true).slideDown(function() {
+                $(window).resize();
+            }).addClass('inline-transcript-open');
+
+            $button.attr('aria-expanded', true);
+            $buttonText.html(this.model.get('_transcript').inlineTranscriptCloseButton);
+
+            if (this.model.get('_transcript')._setCompletionOnView !== false) {
+                this.setCompletionStatus();
+            }
+        },
+
+        onExternalTranscriptClicked: function() {
+            if (this.model.get('_transcript')._setCompletionOnView !== false) {
+                this.setCompletionStatus();
+            }
+        },
+
+        triggerGlobalEvent: function(eventType) {
+            Adapt.trigger('media', {
+                isVideo: true,
+                type: eventType,
+                src: this.model.get('_media')._source,
+                platform: 'YouTube'
+            });
         }
-    },
-    {
+    }, {
         template: 'youtube'
     });
-    
-    Adapt.register("youtube", youtube);
 
-    return youtube;
+    return Adapt.register('youtube', {
+        model: ComponentModel.extend({}),
+        view: YouTubeView
+    });
 });

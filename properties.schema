@@ -7,16 +7,17 @@
     "ariaRegion": {
       "type": "string",
       "required": true,
-      "default": "This is a media component which displays a YouTube video. Select the play / pause button to watch it.",
+      "default": "Media component which displays a YouTube video. Select the play / pause button to watch it.",
       "inputType": "Text",
       "validators": []
     },
-    "transcriptButton": {
+    "skipToTranscript": {
       "type": "string",
-      "required": false,
-      "default": "Alternatively you can select the link below for the transcript.",
+      "required": true,
+      "default": "Skip to transcript",
       "inputType": "Text",
-      "validators": []
+      "validators": [],
+      "translatable": true
     }
   },
   "properties": {
@@ -32,18 +33,17 @@
       "required": false,
       "default": "",
       "inputType": "Text",
-      "validators": [],
-      "help": "This is the instruction text"
+      "validators": []
     },
     "_setCompletionOn": {
       "type": "string",
       "required": true,
       "enum": ["inview", "play", "ended"],
       "default": "inview",
-      "title": "Set completion of Video on",
+      "title": "Completion trigger",
       "inputType": {"type": "Select", "options":["inview", "play", "ended"]},
       "validators": ["required"],
-      "help": "This tells Adapt when to set this video to complete"
+      "help": "Defines what media event should trigger completion of this component."
     },
     "_media": {
       "type": "object",
@@ -59,9 +59,26 @@
           "validators": [],
           "help": "The 'embed' URL of the YouTube video you want to be displayed"
         },
+        "_controls": {
+          "type":"boolean",
+          "required": false,
+          "default": "true",
+          "title": "Show Player Controls",
+          "inputType": "Checkbox",
+          "validators": [],
+          "help": "Specifies whether or not the player controls are displayed."
+        },
+        "_allowFullscreen": {
+          "type":"boolean",
+          "required": false,
+          "default": "true",
+          "title": "Allow Fullscreen?",
+          "inputType": "Checkbox",
+          "validators": []
+        },
         "_aspectRatio": {
           "type": "number",
-          "required":false,
+          "required": false,
           "default": "1.778",
           "title": "Aspect ratio",
           "inputType": "Text",
@@ -70,7 +87,7 @@
         },
         "_autoplay": {
           "type": "boolean",
-          "required":false,
+          "required": false,
           "default": "false",
           "title": "Autoplay",
           "inputType": "Checkbox",
@@ -79,16 +96,16 @@
         },
         "_showRelated": {
           "type": "boolean",
-          "required":false,
+          "required": false,
           "default": "false",
           "title": "Show related videos",
           "inputType": "Checkbox",
           "validators": [],
-          "help": "Indicates whether the player should show related videos when playback of the initial video ends"
+          "help": "Since Sept 2018 the YouTube player no longer allows you to prevent related videos from being shown - see https://developers.google.com/youtube/player_parameters#rel"
         },
         "_loop": {
           "type": "boolean",
-          "required":false,
+          "required": false,
           "default": "false",
           "title": "Loop",
           "inputType": "Checkbox",
@@ -97,7 +114,7 @@
         },
         "_modestBranding": {
           "type": "boolean",
-          "required":false,
+          "required": false,
           "default": "true",
           "title": "Modest branding",
           "inputType": "Checkbox",
@@ -106,7 +123,7 @@
         },
         "_playbackQuality": {
           "type": "string",
-          "required":false,
+          "required": false,
           "default": "default",
           "title": "Playback quality",
           "enum": ["default", "small", "medium", "large", "hd720", "hd1080", "highres"],
@@ -119,7 +136,7 @@
         },
         "_showAnnotations": {
           "type": "boolean",
-          "required":false,
+          "required": false,
           "default": "false",
           "title": "Video annotations",
           "inputType": "Checkbox",
@@ -128,7 +145,7 @@
         },
         "_progressColor": {
           "type": "string",
-          "required":false,
+          "required": false,
           "default": "default",
           "title": "Progress bar color",
           "enum": ["red", "white"],
@@ -137,7 +154,85 @@
             "options": ["red", "white"]
           },
           "validators": [],
-          "help": "The colour that will be used in the player's video progress bar to highlight the amount of the video that the viewer has already seen. Setting this 'white' will disable the 'modest branding' option."
+          "help": "The colour that will be used in the player's video progress bar to highlight the amount of the video that the viewer has already seen. Setting this to 'white' will disable the 'modest branding' option."
+        }
+      }
+    },
+    "_transcript": {
+      "type": "object",
+      "required": false,
+      "title": "Transcript Options",
+      "properties": {
+        "_setCompletionOnView": {
+          "type": "boolean",
+          "required": false,
+          "default": true,
+          "title": "Trigger completion?",
+          "inputType": "Checkbox",
+          "validators": [],
+          "help": "Whether to have this component mark as completed when the transcript is shown."
+        },
+        "_inlineTranscript": {
+          "type": "boolean",
+          "required": false,
+          "default": false,
+          "title": "Show Inline",
+          "inputType": "Checkbox",
+          "validators": []
+        },
+        "_externalTranscript": {
+          "type": "boolean",
+          "required": false,
+          "default": false,
+          "title": "Show Link",
+          "inputType": "Checkbox",
+          "validators": []
+        },
+        "inlineTranscriptButton": {
+          "type": "string",
+          "required": false,
+          "default": "",
+          "title": "Inline Open Button",
+          "inputType": "Text",
+          "validators": [],
+          "translatable": true
+        },
+        "inlineTranscriptCloseButton": {
+          "type": "string",
+          "required": false,
+          "default": "",
+          "title": "Inline Close Button",
+          "inputType": "Text",
+          "validators": [],
+          "translatable": true
+        },
+        "inlineTranscriptBody": {
+          "type": "string",
+          "required": false,
+          "default": "",
+          "title": "Inline Transcript",
+          "inputType": "TextArea",
+          "validators": [],
+          "help": "Optional text appears below the video",
+          "translatable": true
+        },
+        "transcriptLinkButton": {
+          "type": "string",
+          "required": false,
+          "default": "",
+          "title": "Link Open Button",
+          "inputType": "Text",
+          "validators": [],
+          "translatable": true
+        },
+        "transcriptLink": {
+          "type": "string",
+          "required": false,
+          "default": "",
+          "title": "Transcript Link",
+          "inputType": "Asset:other",
+          "validators": [],
+          "help": "Select a file for the transcript link"
         }
       }
     }

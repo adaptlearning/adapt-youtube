@@ -1,8 +1,11 @@
 {
     "name": "adapt-youtube",
-    "repository": "git://github.com/cgkineo/adapt-youtube.git",
-    "framework": ">=2",
-    "version": "1.0.2",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/cgkineo/adapt-youtube.git"
+    },
+    "framework": ">=2.0.17",
+    "version": "1.1.0",
     "homepage": "https://github.com/cgkineo/adapt-youtube",
     "displayName": "YouTube Player",
     "component": "youtube",
