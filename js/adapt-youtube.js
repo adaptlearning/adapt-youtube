@@ -2,7 +2,7 @@ define([
     'core/js/adapt',
     'core/js/views/componentView',
     'core/js/models/componentModel'
-],function(Adapt, ComponentView, ComponentModel) {
+], function(Adapt, ComponentView, ComponentModel) {
 
     var YouTubeView = ComponentView.extend({
         player: null,
