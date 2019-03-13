@@ -17,6 +17,8 @@ define([
 
             _.bindAll(this, 'onPlayerStateChange', 'onPlayerReady', 'onInview');
 
+            this.debouncedTriggerGlobalEvent =_.debounce(this.triggerGlobalEvent.bind(this), 1000);
+
             if (window.onYouTubeIframeAPIReady === undefined) {
                 window.onYouTubeIframeAPIReady = function() {
                     Adapt.log.info('YouTube iframe API loaded');
@@ -91,7 +93,6 @@ define([
         },
 
         onYouTubeIframeAPIReady: function() {
-            //console.info('onYouTubeIframeAPIReady');
             this.player = new YT.Player(this.$('iframe').get(0), {
                 events: {
                     'onStateChange': this.onPlayerStateChange,
@@ -136,7 +137,7 @@ define([
                 case YT.PlayerState.PLAYING:
                     Adapt.trigger('media:stop', this);
 
-                    this.triggerGlobalEvent('play');
+                    this.debouncedTriggerGlobalEvent('play');// use debounced version because seeking whilst playing will trigger two 'play' events
 
                     this.isPlaying = true;
 
@@ -157,7 +158,6 @@ define([
                     }
                 break;
             }
-            //console.log('this.onPlayerStateChange: ' + this.isPlaying);
         },
 
         onToggleInlineTranscript: function(e) {
