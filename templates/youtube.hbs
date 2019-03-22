@@ -1,4 +1,5 @@
-<div class="youtube-inner component-inner" role="region" aria-label="{{_globals._components._youtube.ariaRegion}}" {{#if _globals._components._youtube.ariaRegion}}tabindex="0"{{/if}}>
+{{import_globals}}
+<div class="youtube-inner component-inner">
     {{> component this}}
     {{#any _transcript._externalTranscript _transcript._inlineTranscript}}
         <button class="aria-label js-skip-to-transcript" aria-label="{{_globals._components._youtube.skipToTranscript}}"></button>
@@ -10,18 +11,12 @@
         <div class="youtube-transcript-container">
             <div class="youtube-transcript-button-container">
                 {{#if _transcript._inlineTranscript}}
-                <button class="youtube-inline-transcript-button button">
-                    <div class="transcript-text-container">
-                        {{#if _transcript.inlineTranscriptButton}}
-                            {{_transcript.inlineTranscriptButton}}
-                        {{else}}
-                            {{_transcript.transcriptLink}}
-                        {{/if}}
-                    </div>
+                <button class="youtube-inline-transcript-button button" aria-expanded="false">
+                    <div class="transcript-text-container">{{_transcript.inlineTranscriptButton}}</div>
                 </button>
                 {{/if}}
                 {{#if _transcript._externalTranscript}}
-                <button onclick="top.window.open('{{_transcript.transcriptLink}}')" class="youtube-external-transcript-button button">
+                <button onclick="top.window.open('{{_transcript.transcriptLink}}')" class="youtube-external-transcript-button button" role="button">
                     <div class="transcript-text-container">
                         {{#if _transcript.transcriptLinkButton}}
                             {{_transcript.transcriptLinkButton}}
@@ -34,9 +29,9 @@
             </div>
 
             {{#if _transcript._inlineTranscript}}
-            <div class="youtube-inline-transcript-body-container">
+            <div class="youtube-inline-transcript-body-container" role="region"{{#if _transcript.inlineTranscriptButton}} aria-label="{{_transcript.inlineTranscriptButton}}"{{/if}}>
                 <div class="youtube-inline-transcript-body">
-                {{{a11y_text _transcript.inlineTranscriptBody}}}
+                {{{compile _transcript.inlineTranscriptBody}}}
                 </div>
             </div>
             {{/if}}
