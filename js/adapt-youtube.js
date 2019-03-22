@@ -68,28 +68,10 @@ define([
         },
 
         setupEventListeners: function() {
-            this.completionEvent = (!this.model.get('_setCompletionOn')) ? 'play' : this.model.get('_setCompletionOn');
+            this.completionEvent = (this.model.get('_setCompletionOn') || 'play');
+
             if (this.completionEvent === 'inview') {
-                this.$('.component-widget').on('inview', this.onInview);
-            }
-        },
-
-        // TODO use the new core inview code instead (this will require FW dependency bump)
-        onInview: function(event, visible, visiblePartX, visiblePartY) {
-            if (visible) {
-                if (visiblePartY === 'top') {
-                    this._isVisibleTop = true;
-                } else if (visiblePartY === 'bottom') {
-                    this._isVisibleBottom = true;
-                } else {
-                    this._isVisibleTop = true;
-                    this._isVisibleBottom = true;
-                }
-
-                if (this._isVisibleTop && this._isVisibleBottom) {
-                    this.$('.component-inner').off('inview');
-                    this.setCompletionStatus();
-                }
+                this.setupInviewCompletion('.component-widget');
             }
         },
 

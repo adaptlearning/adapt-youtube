@@ -4,7 +4,7 @@
         "type": "git",
         "url": "git://github.com/cgkineo/adapt-youtube.git"
     },
-    "framework": ">=2.0.17",
+    "framework": ">=3.3",
     "version": "1.1.0",
     "homepage": "https://github.com/cgkineo/adapt-youtube",
     "displayName": "YouTube Player",
