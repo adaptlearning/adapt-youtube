@@ -10,6 +10,14 @@
       "default": "Media component which displays a YouTube video. Select the play / pause button to watch it.",
       "inputType": "Text",
       "validators": []
+    },
+    "skipToTranscript": {
+      "type": "string",
+      "required": true,
+      "default": "Skip to transcript",
+      "inputType": "Text",
+      "validators": [],
+      "translatable": true
     }
   },
   "properties": {

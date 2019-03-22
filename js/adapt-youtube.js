@@ -9,7 +9,8 @@ define([
 
         events: {
             'click .youtube-inline-transcript-button': 'onToggleInlineTranscript',
-            'click .youtube-external-transcript-button': 'onExternalTranscriptClicked'
+            'click .youtube-external-transcript-button': 'onExternalTranscriptClicked',
+            'click .js-skip-to-transcript': 'onSkipToTranscript'
         },
 
         initialize: function() {
@@ -158,6 +159,10 @@ define([
                     }
                 break;
             }
+        },
+
+        onSkipToTranscript: function() {
+            this.$('.media-transcript-container button').a11y_focus();
         },
 
         onToggleInlineTranscript: function(e) {

@@ -1,5 +1,8 @@
 <div class="youtube-inner component-inner" role="region" aria-label="{{_globals._components._youtube.ariaRegion}}" {{#if _globals._components._youtube.ariaRegion}}tabindex="0"{{/if}}>
     {{> component this}}
+    {{#any _transcript._externalTranscript _transcript._inlineTranscript}}
+        <button class="aria-label js-skip-to-transcript" aria-label="{{_globals._components._youtube.skipToTranscript}}"></button>
+    {{/any}}
     <div class="youtube-widget component-widget">
         <iframe width="640px" height="360px" style="width:100%;" src="{{_media._source}}?&autoplay={{#if _media._autoplay}}1{{else}}0{{/if}}&rel={{#if _media._showRelated}}1{{else}}0{{/if}}&loop={{#if _loop}}1{{else}}0{{/if}}&modestbranding={{#if _media._modestBranding}}1{{else}}0{{/if}}&color={{#if _media._progressColor}}{{_media._progressColor}}{{/if}}&controls={{#if _media._controls}}1{{else}}0{{/if}}&enablejsapi=1&playsinline=1&iv_load_policy={{#if _media._showAnnotations}}1{{else}}3{{/if}}" frameborder="0" {{#if _media._allowFullscreen}}allowfullscreen{{/if}}></iframe>
 
