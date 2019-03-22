@@ -115,8 +115,8 @@ define([
         *   https://code.google.com/p/gdata-issues/issues/detail?id=5788
         * but I haven't managed to get any of the workarounds to work... :-(
         */
-        onPlayerStateChange: function(event) {
-            switch(event.data) {
+        onPlayerStateChange: function(e) {
+            switch(e.data) {
                 case YT.PlayerState.PLAYING:
                     Adapt.trigger('media:stop', this);
 
@@ -148,7 +148,7 @@ define([
         },
 
         onToggleInlineTranscript: function(e) {
-            if (e) e.preventDefault();
+            if (e && e.preventDefault) e.preventDefault();
 
             var $transcriptBodyContainer = this.$('.youtube-inline-transcript-body-container');
             var $button = this.$('.youtube-inline-transcript-button');
