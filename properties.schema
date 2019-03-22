@@ -60,7 +60,7 @@
           "help": "The 'embed' URL of the YouTube video you want to be displayed"
         },
         "_controls": {
-          "type":"boolean",
+          "type": "boolean",
           "required": false,
           "default": "true",
           "title": "Show Player Controls",
@@ -69,7 +69,7 @@
           "help": "Specifies whether or not the player controls are displayed."
         },
         "_allowFullscreen": {
-          "type":"boolean",
+          "type": "boolean",
           "required": false,
           "default": "true",
           "title": "Allow Fullscreen?",
