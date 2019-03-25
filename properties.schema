@@ -39,7 +39,7 @@
       "type": "string",
       "required": true,
       "enum": ["inview", "play", "ended"],
-      "default": "inview",
+      "default": "play",
       "title": "Completion trigger",
       "inputType": {"type": "Select", "options":["inview", "play", "ended"]},
       "validators": ["required"],
