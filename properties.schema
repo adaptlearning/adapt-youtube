@@ -10,6 +10,14 @@
       "default": "Media component which displays a YouTube video. Select the play / pause button to watch it.",
       "inputType": "Text",
       "validators": []
+    },
+    "skipToTranscript": {
+      "type": "string",
+      "required": true,
+      "default": "Skip to transcript",
+      "inputType": "Text",
+      "validators": [],
+      "translatable": true
     }
   },
   "properties": {
@@ -31,7 +39,7 @@
       "type": "string",
       "required": true,
       "enum": ["inview", "play", "ended"],
-      "default": "inview",
+      "default": "play",
       "title": "Completion trigger",
       "inputType": {"type": "Select", "options":["inview", "play", "ended"]},
       "validators": ["required"],
@@ -52,7 +60,7 @@
           "help": "The 'embed' URL of the YouTube video you want to be displayed"
         },
         "_controls": {
-          "type":"boolean",
+          "type": "boolean",
           "required": false,
           "default": "true",
           "title": "Show Player Controls",
@@ -61,7 +69,7 @@
           "help": "Specifies whether or not the player controls are displayed."
         },
         "_allowFullscreen": {
-          "type":"boolean",
+          "type": "boolean",
           "required": false,
           "default": "true",
           "title": "Allow Fullscreen?",

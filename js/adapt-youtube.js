@@ -9,7 +9,8 @@ define([
 
         events: {
             'click .youtube-inline-transcript-button': 'onToggleInlineTranscript',
-            'click .youtube-external-transcript-button': 'onExternalTranscriptClicked'
+            'click .youtube-external-transcript-button': 'onExternalTranscriptClicked',
+            'click .js-skip-to-transcript': 'onSkipToTranscript'
         },
 
         initialize: function() {
@@ -67,28 +68,10 @@ define([
         },
 
         setupEventListeners: function() {
-            this.completionEvent = (!this.model.get('_setCompletionOn')) ? 'play' : this.model.get('_setCompletionOn');
+            this.completionEvent = (this.model.get('_setCompletionOn') || 'play');
+
             if (this.completionEvent === 'inview') {
-                this.$('.component-widget').on('inview', this.onInview);
-            }
-        },
-
-        // TODO use the new core inview code instead (this will require FW dependency bump)
-        onInview: function(event, visible, visiblePartX, visiblePartY) {
-            if (visible) {
-                if (visiblePartY === 'top') {
-                    this._isVisibleTop = true;
-                } else if (visiblePartY === 'bottom') {
-                    this._isVisibleBottom = true;
-                } else {
-                    this._isVisibleTop = true;
-                    this._isVisibleBottom = true;
-                }
-
-                if (this._isVisibleTop && this._isVisibleBottom) {
-                    this.$('.component-inner').off('inview');
-                    this.setCompletionStatus();
-                }
+                this.setupInviewCompletion('.component-widget');
             }
         },
 
@@ -132,8 +115,8 @@ define([
         *   https://code.google.com/p/gdata-issues/issues/detail?id=5788
         * but I haven't managed to get any of the workarounds to work... :-(
         */
-        onPlayerStateChange: function(event) {
-            switch(event.data) {
+        onPlayerStateChange: function(e) {
+            switch(e.data) {
                 case YT.PlayerState.PLAYING:
                     Adapt.trigger('media:stop', this);
 
@@ -160,8 +143,16 @@ define([
             }
         },
 
+        onSkipToTranscript: function() {
+            // need slight delay before focussing button to make it work when JAWS is running
+            // see https://github.com/adaptlearning/adapt_framework/issues/2427
+            _.delay(function() {
+                this.$('.media-transcript-container button').a11y_focus();
+            }.bind(this), 250);
+        },
+
         onToggleInlineTranscript: function(e) {
-            if (e) e.preventDefault();
+            if (e && e.preventDefault) e.preventDefault();
 
             var $transcriptBodyContainer = this.$('.youtube-inline-transcript-body-container');
             var $button = this.$('.youtube-inline-transcript-button');
