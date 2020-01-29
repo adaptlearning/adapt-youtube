@@ -2,11 +2,12 @@
     "name": "adapt-youtube",
     "repository": {
         "type": "git",
-        "url": "git://github.com/cgkineo/adapt-youtube.git"
+        "url": "git://github.com/adaptlearning/adapt-youtube.git"
     },
-    "framework": ">=3.3",
-    "version": "1.2.0",
-    "homepage": "https://github.com/cgkineo/adapt-youtube",
+    "framework": ">=5",
+    "version": "2.0.0",
+    "homepage": "https://github.com/adaptlearning/adapt-youtube",
+    "issues": "https://github.com/adaptlearning/adapt-youtube/issues",
     "displayName": "YouTube Player",
     "component": "youtube",
     "authors": [
@@ -19,5 +20,5 @@
         "adapt-plugin",
         "adapt-component"
     ],
-    "license": "GPLv3"
+    "license": "GPL-3.0"
 }
