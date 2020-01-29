@@ -8,8 +8,8 @@ define([
         player: null,
 
         events: {
-            'click .youtube-inline-transcript-button': 'onToggleInlineTranscript',
-            'click .youtube-external-transcript-button': 'onExternalTranscriptClicked',
+            'click .js-youtube-inline-transcript-toggle': 'onToggleInlineTranscript',
+            'click .js-youtube-external-transcript-click': 'onExternalTranscriptClicked',
             'click .js-skip-to-transcript': 'onSkipToTranscript'
         },
 
@@ -40,7 +40,7 @@ define([
 
         setIFrameSize: function () {
             var $iframe = this.$('iframe');
-            var widgetWidth = this.$('.component-widget').width();
+            var widgetWidth = this.$('.component__widget').width();
 
             $iframe.width(widgetWidth);
 
@@ -71,7 +71,7 @@ define([
             this.completionEvent = (this.model.get('_setCompletionOn') || 'play');
 
             if (this.completionEvent === 'inview') {
-                this.setupInviewCompletion('.component-widget');
+                this.setupInviewCompletion('.component__widget');
             }
         },
 
@@ -147,16 +147,16 @@ define([
             // need slight delay before focussing button to make it work when JAWS is running
             // see https://github.com/adaptlearning/adapt_framework/issues/2427
             _.delay(function() {
-                this.$('.media-transcript-container button').a11y_focus();
+                this.$('.youtube__transcript-btn').a11y_focus();
             }.bind(this), 250);
         },
 
         onToggleInlineTranscript: function(e) {
             if (e && e.preventDefault) e.preventDefault();
 
-            var $transcriptBodyContainer = this.$('.youtube-inline-transcript-body-container');
-            var $button = this.$('.youtube-inline-transcript-button');
-            var $buttonText = this.$('.youtube-inline-transcript-button .transcript-text-container');
+            var $transcriptBodyContainer = this.$('.youtube__transcript-body-inline');
+            var $button = this.$('.youtube__transcript-btn-inline');
+            var $buttonText = $button.find('.youtube__transcript-btn-text');
 
             if ($transcriptBodyContainer.hasClass('inline-transcript-open')) {
                 $transcriptBodyContainer.stop(true, true).slideUp(function() {
