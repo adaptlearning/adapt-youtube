@@ -1,18 +1,34 @@
 .youtube {
-
     &__transcript-body-inline {
-        margin-top: 10px;
         display: none;
-    }
-
-    &__transcript-btn-external, &__transcript-btn-inline {
-        width: 100%;
-        display: block;
     }
 }
 
+// --------------------------------------------------
+// --------------------------------------------------
+// THEME
+// --------------------------------------------------
+// --------------------------------------------------
+.youtube {
+    &__transcript-container {
+        margin-top: @item-margin;
+    }
 
-//for use when no title or body or instruction is available
-.youtube-top-padding {
-    padding-top: 4em;
+    &__transcript-btn {
+        padding: @item-padding;
+        background-color: @item-color;
+        color: @item-color-inverted;
+        border-radius: 5px;
+
+        .no-touch &:hover {
+            background-color: @item-color-hover;
+            color: @item-color-inverted-hover;
+            .transition(background-color @duration ease-in, color @duration ease-in;);
+        }
+    }
+
+    &__transcript-body-inline {
+        margin-top: @item-margin;
+        padding: @item-padding;
+    }
 }
