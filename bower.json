@@ -1,24 +1,24 @@
 {
-    "name": "adapt-youtube",
-    "repository": {
-        "type": "git",
-        "url": "git://github.com/adaptlearning/adapt-youtube.git"
-    },
-    "framework": ">=5",
-    "version": "2.0.0",
-    "homepage": "https://github.com/adaptlearning/adapt-youtube",
-    "issues": "https://github.com/adaptlearning/adapt-youtube/issues",
-    "displayName": "YouTube Player",
-    "component": "youtube",
-    "authors": [
-        "Oliver Foster <oliver.foster@kineo.com>",
-        "Matt Leathes <matt.leathes@kineo.com>"
-    ],
-    "description": "YouTube Player for Adapt",
-    "main": "/js/adapt-youtube.js",
-    "keywords": [
-        "adapt-plugin",
-        "adapt-component"
-    ],
-    "license": "GPL-3.0"
+  "name": "adapt-youtube",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/adaptlearning/adapt-youtube.git"
+  },
+  "version": "2.0.0",
+  "framework": ">=5",
+  "homepage": "https://github.com/adaptlearning/adapt-youtube",
+  "issues": "https://github.com/adaptlearning/adapt-youtube/issues",
+  "component": "youtube",
+  "displayName": "YouTube Player",
+  "description": "YouTube Player for Adapt",
+  "main": "/js/adapt-youtube.js",
+  "keywords": [
+    "adapt-plugin",
+    "adapt-component"
+  ],
+  "authors": [
+    "Oliver Foster <oliver.foster@kineo.com>",
+    "Matt Leathes <matt.leathes@kineo.com>"
+  ],
+  "license": "GPL-3.0"
 }
