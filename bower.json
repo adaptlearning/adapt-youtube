@@ -5,7 +5,7 @@
         "url": "git://github.com/adaptlearning/adapt-youtube.git"
     },
     "framework": ">=3.3",
-    "version": "1.2.0",
+    "version": "1.2.2",
     "homepage": "https://github.com/adaptlearning/adapt-youtube",
     "issues": "https://github.com/adaptlearning/adapt-youtube/issues",
     "displayName": "YouTube Player",
