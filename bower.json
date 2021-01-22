@@ -4,7 +4,7 @@
     "type": "git",
     "url": "git://github.com/adaptlearning/adapt-youtube.git"
   },
-  "version": "2.0.0",
+  "version": "2.1.0",
   "framework": ">=5",
   "homepage": "https://github.com/adaptlearning/adapt-youtube",
   "issues": "https://github.com/adaptlearning/adapt-youtube/issues",
