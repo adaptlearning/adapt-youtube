@@ -16,9 +16,7 @@ define([
     initialize: function() {
       ComponentView.prototype.initialize.apply(this);
 
-      _.bindAll(this, 'onPlayerStateChange', 'onPlayerReady', 'onInview');
-
-      this.debouncedTriggerGlobalEvent =_.debounce(this.triggerGlobalEvent.bind(this), 1000);
+      this.debouncedTriggerGlobalEvent = _.debounce(this.triggerGlobalEvent.bind(this), 1000);
 
       if (window.onYouTubeIframeAPIReady === undefined) {
         window.onYouTubeIframeAPIReady = function() {
@@ -44,19 +42,19 @@ define([
 
       $iframe.width(widgetWidth);
 
-      var aspectRatio = (this.model.get('_media')._aspectRatio ? parseFloat(this.model.get('_media')._aspectRatio) : 1.778);//default to 16:9 if not specified
-      if (!isNaN(aspectRatio)) {
-        $iframe.height(widgetWidth / aspectRatio);
-      }
+      var aspectRatio = (this.model.get('_media')._aspectRatio ? parseFloat(this.model.get('_media')._aspectRatio) : 1.778);// default to 16:9 if not specified
+      if (isNaN(aspectRatio)) return;
+
+      $iframe.height(widgetWidth / aspectRatio);
     },
 
     postRender: function() {
-      //FOR HTML/HBS Paramenters: https://developers.google.com/youtube/player_parameters
+      // FOR HTML/HBS Paramenters: https://developers.google.com/youtube/player_parameters
       if (Adapt.youTubeIframeAPIReady === true) {
         this.onYouTubeIframeAPIReady();
-      } else {
-        Adapt.once('youTubeIframeAPIReady', this.onYouTubeIframeAPIReady, this);
+        return;
       }
+      Adapt.once('youTubeIframeAPIReady', this.onYouTubeIframeAPIReady, this);
     },
 
     remove: function() {
@@ -76,10 +74,10 @@ define([
     },
 
     onYouTubeIframeAPIReady: function() {
-      this.player = new YT.Player(this.$('iframe').get(0), {
+      this.player = new window.YT.Player(this.$('iframe').get(0), {
         events: {
-          'onStateChange': this.onPlayerStateChange,
-          'onReady': this.onPlayerReady
+          'onStateChange': this.onPlayerStateChange.bind(this),
+          'onReady': this.onPlayerReady.bind(this)
         }
       });
 
@@ -102,9 +100,9 @@ define([
     },
 
     onPlayerReady: function() {
-      if (this.model.get('_media')._playbackQuality) {
-        this.player.setPlaybackQuality(this.model.get('_media')._playbackQuality);
-      }
+      if (!this.model.get('_media')._playbackQuality) return;
+
+      this.player.setPlaybackQuality(this.model.get('_media')._playbackQuality);
     },
 
     /**
@@ -116,30 +114,28 @@ define([
     * but I haven't managed to get any of the workarounds to work... :-(
     */
     onPlayerStateChange: function(e) {
-      switch(e.data) {
-        case YT.PlayerState.PLAYING:
+      switch (e.data) {
+        case window.YT.PlayerState.PLAYING:
           Adapt.trigger('media:stop', this);
 
           this.debouncedTriggerGlobalEvent('play');// use debounced version because seeking whilst playing will trigger two 'play' events
-
           this.isPlaying = true;
 
           if (this.model.get('_setCompletionOn') && this.model.get('_setCompletionOn') === 'play') {
             this.setCompletionStatus();
           }
-        break;
-        case YT.PlayerState.PAUSED:
+          break;
+        case window.YT.PlayerState.PAUSED:
           this.isPlaying = false;
-
           this.triggerGlobalEvent('pause');
-        break;
-        case YT.PlayerState.ENDED:
+          break;
+        case window.YT.PlayerState.ENDED:
           this.triggerGlobalEvent('ended');
 
           if (this.model.get('_setCompletionOn') && this.model.get('_setCompletionOn') === 'ended') {
             this.setCompletionStatus();
           }
-        break;
+          break;
       }
     },
 
@@ -147,7 +143,7 @@ define([
       // need slight delay before focussing button to make it work when JAWS is running
       // see https://github.com/adaptlearning/adapt_framework/issues/2427
       _.delay(function() {
-        this.$('.youtube__transcript-btn').a11y_focus();
+        Adapt.a11y.focusFirst(this.$('.youtube__transcript-btn'));
       }.bind(this), 250);
     },
 
