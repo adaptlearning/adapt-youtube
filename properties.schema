@@ -62,7 +62,7 @@
         "_controls": {
           "type": "boolean",
           "required": false,
-          "default": "true",
+          "default": true,
           "title": "Show Player Controls",
           "inputType": "Checkbox",
           "validators": [],
@@ -71,8 +71,16 @@
         "_allowFullscreen": {
           "type": "boolean",
           "required": false,
-          "default": "true",
+          "default": true,
           "title": "Allow Fullscreen?",
+          "inputType": "Checkbox",
+          "validators": []
+        },
+        "_playsinline": {
+          "type": "boolean",
+          "required": false,
+          "default": false,
+          "title": "If enabled, videos will play 'inline' on iPhones (the same way they do on iPads).",
           "inputType": "Checkbox",
           "validators": []
         },
@@ -88,7 +96,7 @@
         "_autoplay": {
           "type": "boolean",
           "required": false,
-          "default": "false",
+          "default": false,
           "title": "Autoplay",
           "inputType": "Checkbox",
           "validators": [],
@@ -97,7 +105,7 @@
         "_showRelated": {
           "type": "boolean",
           "required": false,
-          "default": "false",
+          "default": false,
           "title": "Show related videos",
           "inputType": "Checkbox",
           "validators": [],
@@ -106,7 +114,7 @@
         "_loop": {
           "type": "boolean",
           "required": false,
-          "default": "false",
+          "default": false,
           "title": "Loop",
           "inputType": "Checkbox",
           "validators": [],
@@ -115,7 +123,7 @@
         "_modestBranding": {
           "type": "boolean",
           "required": false,
-          "default": "true",
+          "default": true,
           "title": "Modest branding",
           "inputType": "Checkbox",
           "validators": [],
@@ -137,7 +145,7 @@
         "_showAnnotations": {
           "type": "boolean",
           "required": false,
-          "default": "false",
+          "default": false,
           "title": "Video annotations",
           "inputType": "Checkbox",
           "validators": [],
