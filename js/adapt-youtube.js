@@ -49,7 +49,6 @@ define([
     },
 
     postRender: function() {
-      // FOR HTML/HBS Paramenters: https://developers.google.com/youtube/player_parameters
       if (Adapt.youTubeIframeAPIReady === true) {
         this.onYouTubeIframeAPIReady();
         return;
