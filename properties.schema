@@ -53,9 +53,12 @@
         "_source": {
           "type": "string",
           "required": true,
-          "default": "//www.youtube.com/embed/6qzOMCIlzt4",
+          "default": "",
           "title": "Source URL",
           "inputType": "Text",
+          "editorAttrs": {
+            "placeholder": "//www.youtube.com/embed/jNQXAC9IVRw"
+          },
           "validators": [],
           "help": "The 'embed' URL of the YouTube video you want to be displayed"
         },
