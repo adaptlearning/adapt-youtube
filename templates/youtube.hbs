@@ -9,6 +9,7 @@
 
   <div class="component__widget youtube__widget">
 
+    {{#if _media._source}}
     <iframe width="640px" height="360px" style="width:100%;"
       src="{{_media._source~}}
       ?&autoplay={{#if _media._autoplay}}1{{else}}0{{/if~}}
@@ -22,6 +23,7 @@
       {{#if _media._allowFullscreen}} allowfullscreen="true"{{/if}}
       frameborder="0">
     </iframe>
+    {{/if}}
 
   </div>
 
