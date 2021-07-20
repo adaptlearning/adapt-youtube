@@ -3,7 +3,7 @@ import ComponentView from 'core/js/views/componentView';
 import ComponentModel from 'core/js/models/componentModel';
 
 class YouTubeView extends ComponentView {
-  
+
   get template() {
     return 'youtube';
   }
@@ -22,7 +22,7 @@ class YouTubeView extends ComponentView {
     _.bindAll(this, 'onPlayerStateChange', 'onPlayerReady', 'onInview');
 
     this.player = null;
-    this.debouncedTriggerGlobalEvent =_.debounce(this.triggerGlobalEvent.bind(this), 1000);
+    this.debouncedTriggerGlobalEvent = _.debounce(this.triggerGlobalEvent.bind(this), 1000);
 
     if (window.onYouTubeIframeAPIReady !== undefined) return;
     window.onYouTubeIframeAPIReady = () => {
@@ -35,8 +35,7 @@ class YouTubeView extends ComponentView {
 
   preRender() {
     this.listenTo(Adapt, {
-      'device:resize': this.setIFrameSize,
-      'device:changed': this.setIFrameSize,
+      'device:resize device:changed': this.setIFrameSize,
       'media:stop': this.onMediaStop
     });
   }
@@ -48,15 +47,13 @@ class YouTubeView extends ComponentView {
     $iframe.width(widgetWidth);
 
     // default aspect ratio to 16:9 if not specified
-    const aspectRatio = this.model.get('_media')._aspectRatio 
-      ? parseFloat(this.model.get('_media')._aspectRatio)
-      : 1.778;
+    const aspectRatio = parseFloat(this.model.get('_media')._aspectRatio) || 1.778;
     if (isNaN(aspectRatio)) return;
     $iframe.height(widgetWidth / aspectRatio);
   }
 
   postRender() {
-    //FOR HTML/HBS Paramenters: https://developers.google.com/youtube/player_parameters
+    // for HTML/HBS parameters: https://developers.google.com/youtube/player_parameters
     if (Adapt.youTubeIframeAPIReady === true) {
       this.onYouTubeIframeAPIReady();
       return;
@@ -80,10 +77,10 @@ class YouTubeView extends ComponentView {
   }
 
   onYouTubeIframeAPIReady() {
-    this.player = new YT.Player(this.$('iframe').get(0), {
+    this.player = new window.YT.Player(this.$('iframe').get(0), {
       events: {
-        'onStateChange': this.onPlayerStateChange,
-        'onReady': this.onPlayerReady
+        onStateChange: this.onPlayerStateChange,
+        onReady: this.onPlayerReady
       }
     });
 
@@ -118,8 +115,8 @@ class YouTubeView extends ComponentView {
   * but I haven't managed to get any of the workarounds to work... :-(
   */
   onPlayerStateChange(e) {
-    switch(e.data) {
-      case YT.PlayerState.PLAYING:
+    switch (e.data) {
+      case window.YT.PlayerState.PLAYING:
         Adapt.trigger('media:stop', this);
 
         this.debouncedTriggerGlobalEvent('play');// use debounced version because seeking whilst playing will trigger two 'play' events
@@ -129,19 +126,19 @@ class YouTubeView extends ComponentView {
         if (this.model.get('_setCompletionOn') && this.model.get('_setCompletionOn') === 'play') {
           this.setCompletionStatus();
         }
-      break;
-      case YT.PlayerState.PAUSED:
+        break;
+      case window.YT.PlayerState.PAUSED:
         this.isPlaying = false;
 
         this.triggerGlobalEvent('pause');
-      break;
-      case YT.PlayerState.ENDED:
+        break;
+      case window.YT.PlayerState.ENDED:
         this.triggerGlobalEvent('ended');
 
         if (this.model.get('_setCompletionOn') && this.model.get('_setCompletionOn') === 'ended') {
           this.setCompletionStatus();
         }
-      break;
+        break;
     }
   }
 
@@ -149,7 +146,7 @@ class YouTubeView extends ComponentView {
     // need slight delay before focussing button to make it work when JAWS is running
     // see https://github.com/adaptlearning/adapt_framework/issues/2427
     _.delay(() => {
-      this.$('.youtube__transcript-btn').a11y_focus();
+      Adapt.a11y.focusFirst(this.$('.youtube__transcript-btn'), { defer: true });
     }, 250);
   }
 
@@ -159,26 +156,19 @@ class YouTubeView extends ComponentView {
     const $transcriptBodyContainer = this.$('.youtube__transcript-body-inline');
     const $button = this.$('.youtube__transcript-btn-inline');
     const $buttonText = $button.find('.youtube__transcript-btn-text');
+    const config = this.model.get('_transcript');
+    const shouldOpen = !$transcriptBodyContainer.hasClass('inline-transcript-open');
+    const buttonText = shouldOpen ?
+      config.inlineTranscriptCloseButton :
+      config.inlineTranscriptButton;
 
-    if ($transcriptBodyContainer.hasClass('inline-transcript-open')) {
-      $transcriptBodyContainer.stop(true, true).slideUp(() => {
-        $(window).resize();
-      }).removeClass('inline-transcript-open');
+    $transcriptBodyContainer
+      .stop(true).slideToggle(() => $(window).resize())
+      .toggleClass('inline-transcript-open', shouldOpen);
+    $button.attr('aria-expanded', shouldOpen);
+    $buttonText.html(buttonText);
 
-      $button.attr('aria-expanded', false);
-      $buttonText.html(this.model.get('_transcript').inlineTranscriptButton);
-
-      return;
-    }
-
-    $transcriptBodyContainer.stop(true, true).slideDown(() => {
-      $(window).resize();
-    }).addClass('inline-transcript-open');
-
-    $button.attr('aria-expanded', true);
-    $buttonText.html(this.model.get('_transcript').inlineTranscriptCloseButton);
-
-    if (this.model.get('_transcript')._setCompletionOnView === false) return;
+    if (!shouldOpen || config._setCompletionOnView === false) return;
     this.setCompletionStatus();
   }
 
@@ -198,9 +188,7 @@ class YouTubeView extends ComponentView {
 
 }
 
-Adapt.register('youtube', {
+export default Adapt.register('youtube', {
   model: ComponentModel.extend({}),
   view: YouTubeView
 });
-
-export default YouTubeView;
