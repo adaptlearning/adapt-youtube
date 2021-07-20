@@ -123,7 +123,7 @@ class YouTubeView extends ComponentView {
 
         this.isPlaying = true;
 
-        if (this.model.get('_setCompletionOn') && this.model.get('_setCompletionOn') === 'play') {
+        if (this.model.get('_setCompletionOn') === 'play') {
           this.setCompletionStatus();
         }
         break;
@@ -135,7 +135,7 @@ class YouTubeView extends ComponentView {
       case window.YT.PlayerState.ENDED:
         this.triggerGlobalEvent('ended');
 
-        if (this.model.get('_setCompletionOn') && this.model.get('_setCompletionOn') === 'ended') {
+        if (this.model.get('_setCompletionOn') === 'ended') {
           this.setCompletionStatus();
         }
         break;
