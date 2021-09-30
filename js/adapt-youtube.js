@@ -18,12 +18,9 @@ class YouTubeView extends ComponentView {
 
   initialize() {
     super.initialize();
-
     _.bindAll(this, 'onPlayerStateChange', 'onPlayerReady', 'onInview');
-
     this.player = null;
     this.debouncedTriggerGlobalEvent = _.debounce(this.triggerGlobalEvent.bind(this), 1000);
-
     if (window.onYouTubeIframeAPIReady !== undefined) return;
     window.onYouTubeIframeAPIReady = () => {
       Adapt.log.info('YouTube iframe API loaded');
@@ -43,9 +40,7 @@ class YouTubeView extends ComponentView {
   setIFrameSize() {
     const $iframe = this.$('iframe');
     const widgetWidth = this.$('.component__widget').width();
-
     $iframe.width(widgetWidth);
-
     // default aspect ratio to 16:9 if not specified
     const aspectRatio = parseFloat(this.model.get('_media')._aspectRatio) || 1.778;
     if (isNaN(aspectRatio)) return;
@@ -54,24 +49,27 @@ class YouTubeView extends ComponentView {
 
   postRender() {
     // for HTML/HBS parameters: https://developers.google.com/youtube/player_parameters
+    if (!this.model.get('_media')?._source) {
+      this.setReadyStatus();
+      this.model.setCompletionStatus();
+      return;
+    }
     if (Adapt.youTubeIframeAPIReady === true) {
       this.onYouTubeIframeAPIReady();
       return;
     }
-    Adapt.once('youTubeIframeAPIReady', this.onYouTubeIframeAPIReady, this);
+    this.listenToOnce(Adapt, 'youTubeIframeAPIReady', this.onYouTubeIframeAPIReady);
   }
 
   remove() {
     if (this.player !== null) {
       this.player.destroy();
     }
-
     super.remove();
   }
 
   setupEventListeners() {
     this.completionEvent = (this.model.get('_setCompletionOn') || 'play');
-
     if (this.completionEvent !== 'inview') return;
     this.setupInviewCompletion('.component__widget');
   }
@@ -83,20 +81,15 @@ class YouTubeView extends ComponentView {
         onReady: this.onPlayerReady
       }
     });
-
     this.isPlaying = false;
-
     this.setReadyStatus();
-
     this.setupEventListeners();
-
     this.setIFrameSize();
   }
 
   onMediaStop(view) {
     // if it was this view that triggered the media:stop event, ignore it
     if (view && view.cid === this.cid) return;
-
     if (!this.isPlaying) return;
     this.player.pauseVideo();
   }
@@ -118,23 +111,18 @@ class YouTubeView extends ComponentView {
     switch (e.data) {
       case window.YT.PlayerState.PLAYING:
         Adapt.trigger('media:stop', this);
-
         this.debouncedTriggerGlobalEvent('play');// use debounced version because seeking whilst playing will trigger two 'play' events
-
         this.isPlaying = true;
-
         if (this.model.get('_setCompletionOn') === 'play') {
           this.setCompletionStatus();
         }
         break;
       case window.YT.PlayerState.PAUSED:
         this.isPlaying = false;
-
         this.triggerGlobalEvent('pause');
         break;
       case window.YT.PlayerState.ENDED:
         this.triggerGlobalEvent('ended');
-
         if (this.model.get('_setCompletionOn') === 'ended') {
           this.setCompletionStatus();
         }
