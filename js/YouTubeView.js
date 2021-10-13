@@ -41,7 +41,7 @@ export default class YouTubeView extends ComponentView {
     const widgetWidth = this.$('.component__widget').width();
     $iframe.width(widgetWidth);
     // default aspect ratio to 16:9 if not specified
-    const aspectRatio = parseFloat(this.model.get('_media')._aspectRatio) || 1.778;
+    const aspectRatio = (parseFloat(this.model.get('_media')._aspectRatio) || 1.778);
     if (isNaN(aspectRatio)) return;
     $iframe.height(widgetWidth / aspectRatio);
   }
