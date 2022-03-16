@@ -1,6 +1,8 @@
+import a11y from 'core/js/a11y';
 import Adapt from 'core/js/adapt';
 import ComponentView from 'core/js/views/componentView';
 import ComponentModel from 'core/js/models/componentModel';
+import log from 'core/js/logging';
 
 class YouTubeView extends ComponentView {
 
@@ -26,7 +28,7 @@ class YouTubeView extends ComponentView {
 
     if (window.onYouTubeIframeAPIReady !== undefined) return;
     window.onYouTubeIframeAPIReady = () => {
-      Adapt.log.info('YouTube iframe API loaded');
+      log.info('YouTube iframe API loaded');
       Adapt.youTubeIframeAPIReady = true;
       Adapt.trigger('youTubeIframeAPIReady');
     };
@@ -146,7 +148,7 @@ class YouTubeView extends ComponentView {
     // need slight delay before focussing button to make it work when JAWS is running
     // see https://github.com/adaptlearning/adapt_framework/issues/2427
     _.delay(() => {
-      Adapt.a11y.focusFirst(this.$('.youtube__transcript-btn'), { defer: true });
+      a11y.focusFirst(this.$('.youtube__transcript-btn'), { defer: true });
     }, 250);
   }
 
