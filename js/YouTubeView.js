@@ -1,7 +1,7 @@
 import a11y from 'core/js/a11y';
 import Adapt from 'core/js/adapt';
+import logging from 'core/js/logging';
 import ComponentView from 'core/js/views/componentView';
-import log from 'core/js/logging';
 
 export default class YouTubeView extends ComponentView {
 
@@ -24,7 +24,7 @@ export default class YouTubeView extends ComponentView {
     this.debouncedTriggerGlobalEvent = _.debounce(this.triggerGlobalEvent.bind(this), 1000);
     if (window.onYouTubeIframeAPIReady !== undefined) return;
     window.onYouTubeIframeAPIReady = () => {
-      log.info('YouTube iframe API loaded');
+      logging.info('YouTube iframe API loaded');
       Adapt.youTubeIframeAPIReady = true;
       Adapt.trigger('youTubeIframeAPIReady');
     };
