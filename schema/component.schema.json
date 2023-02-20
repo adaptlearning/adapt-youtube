@@ -1,0 +1,206 @@
+{
+  "$anchor": "youtube-component",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "$merge": {
+    "source": {
+      "$ref": "component"
+    },
+    "with": {
+      "required": [
+        "_media"
+      ],
+      "properties": {
+        "_supportedLayout": {
+          "type": "string",
+          "title": "Supported layout",
+          "default": "both",
+          "_adapt": {
+            "editorOnly": true
+          }
+        },
+        "instruction": {
+          "type": "string",
+          "title": "Instruction",
+          "default": ""
+        },
+        "_setCompletionOn": {
+          "type": "string",
+          "title": "Completion trigger",
+          "description": "Defines what media event should trigger completion of this component.",
+          "default": "play",
+          "enum": [
+            "inview",
+            "play",
+            "ended"
+          ],
+          "_backboneForms": "Select"
+        },
+        "_media": {
+          "type": "object",
+          "title": "Media settings",
+          "properties": {
+            "_source": {
+              "type": "string",
+              "title": "Source URL",
+              "description": "The 'embed' URL of the YouTube video you want to be displayed",
+              "default": "",
+              "_backboneForms": {
+                "editorAttrs": {
+                  "placeholder": "//www.youtube.com/embed/jNQXAC9IVRw"
+                }
+              }
+            },
+            "_controls": {
+              "type": "boolean",
+              "title": "Show Player Controls",
+              "description": "Specifies whether or not the player controls are displayed.",
+              "default": true
+            },
+            "_allowFullscreen": {
+              "type": "boolean",
+              "title": "Allow Fullscreen?",
+              "default": true
+            },
+            "_playsinline": {
+              "type": "boolean",
+              "title": "If enabled, videos will play 'inline' on iPhones (the same way they do on iPads).",
+              "default": false
+            },
+            "_aspectRatio": {
+              "type": "number",
+              "title": "Aspect ratio",
+              "description": "The aspect ratio of the video as a decimal number. If the aspect ratio is 16:9 then you calculate the decimal version by dividing 16 by 9 i.e. 1.778. 4:3 aspect ratio is 1.33",
+              "default": "1.778",
+              "_backboneForms": "Text"
+            },
+            "_autoplay": {
+              "type": "boolean",
+              "title": "Autoplay",
+              "description": "Specifies whether or not the video will automatically start to play when the player loads (not supported on iOS).",
+              "default": false
+            },
+            "_showRelated": {
+              "type": "boolean",
+              "title": "Show related videos",
+              "description": "Since Sept 2018 the YouTube player no longer allows you to prevent related videos from being shown - see https://developers.google.com/youtube/player_parameters#rel",
+              "default": false
+            },
+            "_loop": {
+              "type": "boolean",
+              "title": "Loop",
+              "description": "Whether to play the video on a loop or not.",
+              "default": false
+            },
+            "_modestBranding": {
+              "type": "boolean",
+              "title": "Modest branding",
+              "description": "This parameter lets you use a YouTube player that does not show a YouTube logo. Set to true to prevent the YouTube logo from displaying in the control bar. Note that a small YouTube text label will still display in the upper-right corner of a paused video when the user's mouse pointer hovers over the player.",
+              "default": true
+            },
+            "_playbackQuality": {
+              "type": "string",
+              "title": "Playback quality",
+              "description": "The suggested video quality for the video. You should select a playback quality that corresponds to the size of your video player. For example, if your page displays a 1280px by 720px video player, a hd720 quality video will actually look better than an hd1080 quality video.",
+              "default": "default",
+              "enum": [
+                "default",
+                "small",
+                "medium",
+                "large",
+                "hd720",
+                "hd1080",
+                "highres"
+              ],
+              "_backboneForms": "Select"
+            },
+            "_showAnnotations": {
+              "type": "boolean",
+              "title": "Video annotations",
+              "description": "Whether video annotations should be shown or not.",
+              "default": false
+            },
+            "_progressColor": {
+              "type": "string",
+              "title": "Progress bar color",
+              "description": "The colour that will be used in the player's video progress bar to highlight the amount of the video that the viewer has already seen. Setting this to 'white' will disable the 'modest branding' option.",
+              "default": "default",
+              "enum": [
+                "red",
+                "white"
+              ],
+              "_backboneForms": "Select"
+            }
+          }
+        },
+        "_transcript": {
+          "type": "object",
+          "title": "Transcript Options",
+          "default": {},
+          "properties": {
+            "_setCompletionOnView": {
+              "type": "boolean",
+              "title": "Trigger completion?",
+              "description": "Whether to have this component mark as completed when the transcript is shown.",
+              "default": true
+            },
+            "_inlineTranscript": {
+              "type": "boolean",
+              "title": "Show Inline",
+              "default": false
+            },
+            "_externalTranscript": {
+              "type": "boolean",
+              "title": "Show Link",
+              "default": false
+            },
+            "inlineTranscriptButton": {
+              "type": "string",
+              "title": "Inline Open Button",
+              "default": "",
+              "_adapt": {
+                "translatable": true
+              }
+            },
+            "inlineTranscriptCloseButton": {
+              "type": "string",
+              "title": "Inline Close Button",
+              "default": "",
+              "_adapt": {
+                "translatable": true
+              }
+            },
+            "inlineTranscriptBody": {
+              "type": "string",
+              "title": "Inline Transcript",
+              "description": "Optional text appears below the video",
+              "default": "",
+              "_adapt": {
+                "translatable": true
+              },
+              "_backboneForms": "TextArea"
+            },
+            "transcriptLinkButton": {
+              "type": "string",
+              "title": "Link Open Button",
+              "default": "",
+              "_adapt": {
+                "translatable": true
+              }
+            },
+            "transcriptLink": {
+              "type": "string",
+              "isObjectId": true,
+              "title": "Transcript Link",
+              "description": "Select a file for the transcript link",
+              "_backboneForms": {
+                "type": "Asset",
+                "media": "other"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "$anchor": "youtube-course",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "$patch": {
+    "source": {
+      "$ref": "course"
+    },
+    "with": {
+      "properties": {
+        "_globals": {
+          "type": "object",
+          "default": {},
+          "properties": {
+            "_youtube": {
+              "type": "object",
+              "default": {},
+              "properties": {
+                "ariaRegion": {
+                  "type": "string",
+                  "title": "Aria region",
+                  "default": "Media component which displays a YouTube video. Select the play / pause button to watch it."
+                },
+                "skipToTranscript": {
+                  "type": "string",
+                  "title": "Skip to transcript",
+                  "default": "Skip to transcript",
+                  "_adapt": {
+                    "translatable": true
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
