@@ -1,14 +1,11 @@
 {
   "name": "adapt-youtube",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/adaptlearning/adapt-youtube.git"
-  },
   "version": "3.1.0",
   "framework": ">=5.19.1",
   "homepage": "https://github.com/adaptlearning/adapt-youtube",
   "issues": "https://github.com/adaptlearning/adapt-youtube/issues",
   "component": "youtube",
+  "targetAttribute": "_youtube",
   "displayName": "YouTube Player",
   "description": "YouTube Player for Adapt",
   "main": "/js/adapt-youtube.js",
@@ -16,11 +13,11 @@
     "adapt-plugin",
     "adapt-component"
   ],
+  "license": "GPL-3.0",
   "authors": [
     "Oliver Foster <oliver.foster@kineo.com>",
     "Matt Leathes <matt.leathes@kineo.com>"
   ],
-  "license": "GPL-3.0",
   "private": true,
   "devDependencies": {
     "@semantic-release/commit-analyzer": "^9.0.2",
