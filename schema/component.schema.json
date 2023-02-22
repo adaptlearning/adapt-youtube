@@ -22,7 +22,11 @@
         "instruction": {
           "type": "string",
           "title": "Instruction",
-          "default": ""
+          "description": "This is the instruction text",
+          "default": "Select the play button to start the video.",
+          "_adapt": {
+            "translatable": true
+          }
         },
         "_setCompletionOn": {
           "type": "string",

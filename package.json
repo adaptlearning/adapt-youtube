@@ -6,8 +6,8 @@
   "issues": "https://github.com/adaptlearning/adapt-youtube/issues",
   "component": "youtube",
   "targetAttribute": "_youtube",
-  "displayName": "YouTube Player",
-  "description": "YouTube Player for Adapt",
+  "displayName": "YouTube",
+  "description": "Media player for when content needs to be streamed from the video hosting platform, YouTube.",
   "main": "/js/adapt-youtube.js",
   "keywords": [
     "adapt-plugin",
