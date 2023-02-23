@@ -80,8 +80,7 @@
               "type": "number",
               "title": "Aspect ratio",
               "description": "The aspect ratio of the video as a decimal number. If the aspect ratio is 16:9 then you calculate the decimal version by dividing 16 by 9 i.e. 1.778. 4:3 aspect ratio is 1.33",
-              "default": "1.778",
-              "_backboneForms": "Text"
+              "default": 1.778
             },
             "_autoplay": {
               "type": "boolean",
@@ -133,7 +132,7 @@
               "type": "string",
               "title": "Progress bar color",
               "description": "The colour that will be used in the player's video progress bar to highlight the amount of the video that the viewer has already seen. Setting this to 'white' will disable the 'modest branding' option.",
-              "default": "default",
+              "default": "red",
               "enum": [
                 "red",
                 "white"

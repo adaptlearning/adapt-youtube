@@ -93,7 +93,7 @@
         "_aspectRatio": {
           "type": "number",
           "required": false,
-          "default": "1.778",
+          "default": 1.778,
           "title": "Aspect ratio",
           "inputType": "Text",
           "validators": [],
