@@ -18,8 +18,8 @@
               "properties": {
                 "ariaRegion": {
                   "type": "string",
-                  "title": "Aria region",
-                  "default": "Media component which displays a YouTube video. Select the play / pause button to watch it."
+                  "title": "YouTube: ARIA region",
+                  "default": "This is a media component which displays a YouTube video. Select the play / pause button to watch it.{{#any _transcript._inlineTranscript _transcript._externalTranscript}} An alternative transcript is also available.{{/any}}"
                 },
                 "skipToTranscript": {
                   "type": "string",

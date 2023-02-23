@@ -7,7 +7,8 @@
     "ariaRegion": {
       "type": "string",
       "required": true,
-      "default": "Media component which displays a YouTube video. Select the play / pause button to watch it.",
+      "title": "YouTube: ARIA region",
+      "default": "This is a media component which displays a YouTube video. Select the play / pause button to watch it.",
       "inputType": "Text",
       "validators": []
     },
@@ -42,7 +43,7 @@
       "required": true,
       "enum": ["inview", "play", "ended"],
       "default": "play",
-      "title": "Completion trigger",
+      "title": "Set completion of Video on",
       "inputType": {"type": "Select", "options":["inview", "play", "ended"]},
       "validators": ["required"],
       "help": "Defines what media event should trigger completion of this component."
@@ -180,16 +181,15 @@
           "type": "boolean",
           "required": false,
           "default": true,
-          "title": "Trigger completion?",
+          "title": "Mark this component as complete when transcript is shown",
           "inputType": "Checkbox",
-          "validators": [],
-          "help": "Whether to have this component mark as completed when the transcript is shown."
+          "validators": []
         },
         "_inlineTranscript": {
           "type": "boolean",
           "required": false,
           "default": false,
-          "title": "Show Inline",
+          "title": "Enable inline transcript",
           "inputType": "Checkbox",
           "validators": []
         },
@@ -197,7 +197,7 @@
           "type": "boolean",
           "required": false,
           "default": false,
-          "title": "Show Link",
+          "title": "Enable linked transcript file",
           "inputType": "Checkbox",
           "validators": []
         },
@@ -205,7 +205,7 @@
           "type": "string",
           "required": false,
           "default": "",
-          "title": "Inline Open Button",
+          "title": "Inline transcript open button label",
           "inputType": "Text",
           "validators": [],
           "translatable": true
@@ -214,7 +214,7 @@
           "type": "string",
           "required": false,
           "default": "",
-          "title": "Inline Close Button",
+          "title": "Inline transcript close button label",
           "inputType": "Text",
           "validators": [],
           "translatable": true
@@ -225,15 +225,14 @@
           "default": "",
           "title": "Inline Transcript",
           "inputType": "TextArea",
-          "validators": [],
-          "help": "Optional text appears below the video",
+          "validators": []
           "translatable": true
         },
         "transcriptLinkButton": {
           "type": "string",
           "required": false,
           "default": "",
-          "title": "Link Open Button",
+          "title": "Linked transcript file button label",
           "inputType": "Text",
           "validators": [],
           "translatable": true
@@ -242,7 +241,7 @@
           "type": "string",
           "required": false,
           "default": "",
-          "title": "Transcript Link",
+          "title": "Linked transcript file source",
           "inputType": "Asset:other",
           "validators": [],
           "help": "Select a file for the transcript link"

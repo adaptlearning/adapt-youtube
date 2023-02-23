@@ -15,6 +15,11 @@
           "type": "string",
           "title": "Supported layout",
           "default": "both",
+          "enum": [
+            "full-width",
+            "half-width",
+            "both"
+          ],
           "_adapt": {
             "editorOnly": true
           }
@@ -30,7 +35,7 @@
         },
         "_setCompletionOn": {
           "type": "string",
-          "title": "Completion trigger",
+          "title": "Set completion of Video on",
           "description": "Defines what media event should trigger completion of this component.",
           "default": "play",
           "enum": [
@@ -144,23 +149,22 @@
           "properties": {
             "_setCompletionOnView": {
               "type": "boolean",
-              "title": "Trigger completion?",
-              "description": "Whether to have this component mark as completed when the transcript is shown.",
+              "title": "Mark this component as complete when transcript is shown",
               "default": true
             },
             "_inlineTranscript": {
               "type": "boolean",
-              "title": "Show Inline",
+              "title": "Enable inline transcript",
               "default": false
             },
             "_externalTranscript": {
               "type": "boolean",
-              "title": "Show Link",
+              "title": "Enable linked transcript file",
               "default": false
             },
             "inlineTranscriptButton": {
               "type": "string",
-              "title": "Inline Open Button",
+              "title": "Inline transcript open button label",
               "default": "",
               "_adapt": {
                 "translatable": true
@@ -168,7 +172,7 @@
             },
             "inlineTranscriptCloseButton": {
               "type": "string",
-              "title": "Inline Close Button",
+              "title": "Inline transcript close button label",
               "default": "",
               "_adapt": {
                 "translatable": true
@@ -177,7 +181,6 @@
             "inlineTranscriptBody": {
               "type": "string",
               "title": "Inline Transcript",
-              "description": "Optional text appears below the video",
               "default": "",
               "_adapt": {
                 "translatable": true
@@ -186,7 +189,7 @@
             },
             "transcriptLinkButton": {
               "type": "string",
-              "title": "Link Open Button",
+              "title": "Linked transcript file button label",
               "default": "",
               "_adapt": {
                 "translatable": true
@@ -195,7 +198,7 @@
             "transcriptLink": {
               "type": "string",
               "isObjectId": true,
-              "title": "Transcript Link",
+              "title": "Linked transcript file source",
               "description": "Select a file for the transcript link",
               "_backboneForms": {
                 "type": "Asset",
