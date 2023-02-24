@@ -225,7 +225,7 @@
           "default": "",
           "title": "Inline Transcript",
           "inputType": "TextArea",
-          "validators": []
+          "validators": [],
           "translatable": true
         },
         "transcriptLinkButton": {
