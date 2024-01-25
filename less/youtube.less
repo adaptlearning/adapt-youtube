@@ -16,15 +16,24 @@
 
   &__transcript-btn {
     padding: @item-padding;
-    background-color: @item-color;
-    color: @item-color-inverted;
+    .item-ui-color;
     border-radius: @item-border-radius;
 
-    .no-touch &:hover {
-      background-color: @item-color-hover;
-      color: @item-color-inverted-hover;
-      .transition(background-color @duration ease-in, color @duration ease-in;);
+    .no-touch &:not([aria-expanded="true"]):hover {
+      .item-ui-color-hover;
     }
+
+    html:not(.a11y-disable-focusoutline) &:not([aria-expanded="true"]):focus-visible {
+      .item-ui-color-focus;
+    }
+  }
+
+  &.is-complete &__transcript-btn {
+    .item-ui-color-visited;
+  }
+
+  &__transcript-btn[aria-expanded="true"] {
+    .item-ui-color-selected;
   }
 
   &__transcript-body-inline {
