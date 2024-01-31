@@ -201,7 +201,7 @@
               "description": "Select a file for the transcript link",
               "_backboneForms": {
                 "type": "Asset",
-                "media": "other"
+                "media": "text"
               }
             }
           }
