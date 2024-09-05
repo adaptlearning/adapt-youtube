@@ -7,9 +7,6 @@
       "$ref": "component"
     },
     "with": {
-      "required": [
-        "_media"
-      ],
       "properties": {
         "_supportedLayout": {
           "type": "string",
@@ -48,6 +45,9 @@
         "_media": {
           "type": "object",
           "title": "Media settings",
+          "required": [
+            "_source"
+          ],
           "properties": {
             "_source": {
               "type": "string",
