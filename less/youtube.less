@@ -35,4 +35,22 @@
   &__transcript-body-inline a {
     .link-text;
   }
+
+  &__transcript-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__transcript-btn-icon {
+    margin-inline-start: @icon-padding / 2;
+  }
+
+  &.is-complete &__transcript-btn-icon .icon {
+    .icon-tick;
+  }
+
+  &__transcript-body-inline {
+    display: none;
+  }
 }
