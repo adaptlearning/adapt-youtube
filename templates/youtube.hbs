@@ -4,7 +4,9 @@
   {{> component this}}
 
   {{#any _transcript._externalTranscript _transcript._inlineTranscript}}
-  <button class="aria-label js-skip-to-transcript" tabindex="-1" aria-label="{{_globals._components._youtube.skipToTranscript}}"></button>
+  <button class="btn-text youtube__skip-to-transcript js-skip-to-transcript">
+    {{_globals._components._youtube.skipToTranscript}}
+  </button>
   {{/any}}
 
   <div class="component__widget youtube__widget">
@@ -34,7 +36,14 @@
     {{#if _transcript._inlineTranscript}}
     <button class="youtube__transcript-btn youtube__transcript-btn-inline js-youtube-inline-transcript-toggle" aria-expanded="false">
       <span class="youtube__transcript-btn-text">
-        {{_transcript.inlineTranscriptButton}}
+        {{#if _transcript.inlineTranscriptButton}}
+          {{_transcript.inlineTranscriptButton}}
+        {{else}}
+          {{_transcript.transcriptLink}}
+        {{/if}}
+      </span>
+      <span class="youtube__transcript-btn-icon">
+        <span class="icon" aria-hidden="true"></span>
       </span>
     </button>
     {{/if}}
@@ -43,16 +52,19 @@
     <button class="youtube__transcript-btn youtube__transcript-btn-external js-youtube-external-transcript-click" onclick="top.window.open('{{_transcript.transcriptLink}}')">
       <span class="youtube__transcript-btn-text">
         {{#if _transcript.transcriptLinkButton}}
-        {{_transcript.transcriptLinkButton}}
+          {{_transcript.transcriptLinkButton}}
         {{else}}
-        {{_transcript.transcriptLink}}
+          {{_transcript.transcriptLink}}
         {{/if}}
+      </span>
+      <span class="youtube__transcript-btn-icon">
+        <span class="icon" aria-hidden="true"></span>
       </span>
     </button>
     {{/if}}
 
     {{#if _transcript._inlineTranscript}}
-    <div class="youtube__transcript-body-inline" role="region"{{#if _transcript.inlineTranscriptButton}} aria-label="{{_transcript.inlineTranscriptButton}}"{{/if}}>
+    <div class="youtube__transcript-body-inline" role="region" aria-label="{{#if _transcript.inlineTranscriptButton}}{{_transcript.inlineTranscriptButton}}{{else}}{{_transcript.transcriptLink}}{{/if}}">
       <div class="youtube__transcript-body-inline-inner">
         {{{compile _transcript.inlineTranscriptBody}}}
       </div>
