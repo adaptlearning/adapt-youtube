@@ -139,31 +139,50 @@ export default class YouTubeView extends ComponentView {
     }, 250);
   }
 
-  onToggleInlineTranscript(e) {
-    if (e && e.preventDefault) e.preventDefault();
-
+  /**
+   * Handles toggling the inline transcript open/closed
+   * and updating the label on the inline transcript button
+   */
+  onToggleInlineTranscript(event) {
+    if (event) event.preventDefault();
     const $transcriptBodyContainer = this.$('.youtube__transcript-body-inline');
     const $button = this.$('.youtube__transcript-btn-inline');
     const $buttonText = $button.find('.youtube__transcript-btn-text');
-    const config = this.model.get('_transcript');
-    const shouldOpen = !$transcriptBodyContainer.hasClass('inline-transcript-open');
-    const buttonText = shouldOpen ?
-      config.inlineTranscriptCloseButton :
-      config.inlineTranscriptButton;
 
-    $transcriptBodyContainer
-      .stop(true).slideToggle(() => $(window).resize())
-      .toggleClass('inline-transcript-open', shouldOpen);
-    $button.attr('aria-expanded', shouldOpen);
-    $buttonText.html(buttonText);
+    if ($transcriptBodyContainer.hasClass('inline-transcript-open')) {
+      $transcriptBodyContainer.stop(true, true).slideUp(() => {
+        $(window).resize();
+      }).removeClass('inline-transcript-open');
+      $button.attr('aria-expanded', false);
+      $buttonText.html(this.model.get('_transcript').inlineTranscriptButton);
+      this.transcriptTriggers('closed');
 
-    if (!shouldOpen || config._setCompletionOnView === false) return;
-    this.setCompletionStatus();
+      return;
+    }
+
+    $transcriptBodyContainer.stop(true, true).slideDown(() => {
+      $(window).resize();
+    }).addClass('inline-transcript-open');
+
+    $button.attr('aria-expanded', true);
+    $buttonText.html(this.model.get('_transcript').inlineTranscriptCloseButton);
+    this.transcriptTriggers('opened');
+  }
+  
+  onExternalTranscriptClicked(event) {
+    this.transcriptTriggers('external');
   }
 
-  onExternalTranscriptClicked() {
-    if (this.model.get('_transcript')._setCompletionOnView === false) return;
+  transcriptTriggers(state) {
+    const setCompletionOnView = this.model.get('_transcript')._setCompletionOnView;
+    const isComplete = this.model.get('_isComplete');
+    const shouldComplete = (setCompletionOnView && !isComplete);
+
+    if (!shouldComplete) {
+      return Adapt.trigger('youtube:transcript', state, this);
+    }
     this.setCompletionStatus();
+    Adapt.trigger('youtube:transcript', 'complete', this);
   }
 
   triggerGlobalEvent(eventType) {
