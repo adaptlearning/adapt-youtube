@@ -22,12 +22,15 @@ export default class YouTubeView extends ComponentView {
     _.bindAll(this, 'onPlayerStateChange', 'onPlayerReady', 'onInview');
     this.player = null;
     this.debouncedTriggerGlobalEvent = _.debounce(this.triggerGlobalEvent.bind(this), 1000);
-    if (window.onYouTubeIframeAPIReady !== undefined) return;
-    window.onYouTubeIframeAPIReady = () => {
+    const _onYouTubeIframeAPIReady = () => {
       logging.info('YouTube iframe API loaded');
       Adapt.youTubeIframeAPIReady = true;
       Adapt.trigger('youTubeIframeAPIReady');
-    };
+    }
+    if (window.onYouTubeIframeAPIReady !== undefined) {
+      return _onYouTubeIframeAPIReady();
+    }
+    window.onYouTubeIframeAPIReady = _onYouTubeIframeAPIReady;
     $.getScript('//www.youtube.com/iframe_api');
   }
 
