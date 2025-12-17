@@ -49,7 +49,7 @@
     {{/if}}
 
     {{#if _transcript._externalTranscript}}
-    <button class="youtube__transcript-btn youtube__transcript-btn-external js-youtube-external-transcript-click" onclick="top.window.open('{{_transcript.transcriptLink}}')">
+    <button class="youtube__transcript-btn youtube__transcript-btn-external js-youtube-external-transcript-click" onclick="window.open('{{_transcript.transcriptLink}}')">
       <span class="youtube__transcript-btn-text">
         {{#if _transcript.transcriptLinkButton}}
           {{_transcript.transcriptLinkButton}}
