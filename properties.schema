@@ -160,7 +160,7 @@
         "_progressColor": {
           "type": "string",
           "required": false,
-          "default": "default",
+          "default": "red",
           "title": "Progress bar color",
           "enum": ["red", "white"],
           "inputType": {
