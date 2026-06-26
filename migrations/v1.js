@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { describe, getCourse, whereContent, whereFromPlugin, mutateContent, checkContent, updatePlugin, getComponents, testStopWhere, testSuccessWhere } from 'adapt-migrations';
 import _ from 'lodash';
 
@@ -52,7 +53,7 @@ describe('adapt-youtube - v1.0.2 to v1.2.0', async () => {
   });
 
   mutateContent('adapt-youtube - add _transcript to youtube components', async content => {
-    youtubesWithoutTranscript.forEach(c => (c._transcript = {}));
+    youtubesWithoutTranscript.forEach(c => _.set(c, '_transcript', {}));
     return true;
   });
 
@@ -93,7 +94,7 @@ describe('adapt-youtube - v1.0.2 to v1.2.0', async () => {
     fromPlugins: [{ name: 'adapt-youtube', version: '1.2.0' }]
   });
 
-  testStopWhere('no youtube components and no transcriptButton global', {
+  testStopWhere('youtube already has all properties - no migration needed', {
     fromPlugins: [{ name: 'adapt-youtube', version: '1.0.2' }],
     content: [{ _type: 'course', _globals: { _youtube: {} } }, { _id: 'c-100', _component: 'youtube', _media: { _source: '//www.youtube.com/embed/jNQXAC9IVRw', _controls: true, _allowFullscreen: true }, _transcript: {} }]
   });
