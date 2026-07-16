@@ -124,6 +124,11 @@ export default class YouTubeView extends ComponentView {
         break;
       case window.YT.PlayerState.ENDED:
         this.triggerGlobalEvent('ended');
+        if (this.model.get('_media')._loop) {
+          this.player.seekTo(0);
+          this.player.playVideo();
+          return;
+        }
         if (this.model.get('_setCompletionOn') === 'ended') {
           this.setCompletionStatus();
         }
@@ -168,7 +173,7 @@ export default class YouTubeView extends ComponentView {
     $buttonText.html(this.model.get('_transcript').inlineTranscriptCloseButton);
     this.transcriptTriggers('opened');
   }
-  
+
   onExternalTranscriptClicked(event) {
     this.transcriptTriggers('external');
   }
