@@ -22,6 +22,7 @@
       &controls={{#if _media._controls}}1{{else}}0{{/if~}}
       &playsinline={{#if _media._playsinline}}1{{else}}0{{/if~}}
       &enablejsapi=1&iv_load_policy={{#if _media._showAnnotations}}1{{else}}3{{/if~}}"
+      {{#if displayTitle}}aria-labelledby="{{_id}}-heading"{{else}}{{#if title}}aria-label="{{title}}"{{/if}}{{/if}}
       {{#if _media._allowFullscreen}} allowfullscreen="true"{{/if}}
       allow="clipboard-write; autoplay; encrypted-media;"
       frameborder="0">
