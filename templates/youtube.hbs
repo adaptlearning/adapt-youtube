@@ -13,6 +13,7 @@
 
     {{#if _media._source}}
     <iframe width="640px" height="360px" style="width:100%;"
+      referrerpolicy="strict-origin-when-cross-origin"
       src="{{_media._source~}}
       ?&autoplay={{#if _media._autoplay}}1{{else}}0{{/if~}}
       &rel={{#if _media._showRelated}}1{{else}}0{{/if~}}
