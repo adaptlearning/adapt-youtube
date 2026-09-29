@@ -1,10 +1,10 @@
 import { describe, whereContent, whereFromPlugin, mutateContent, checkContent, updatePlugin, getComponents, testStopWhere, testSuccessWhere } from 'adapt-migrations';
 import _ from 'lodash';
 
-describe('adapt-youtube - @@CURRENT_VERSION to @@RELEASE_VERSION', async () => {
+describe('adapt-youtube - 3.3.5 to 3.3.6', async () => {
   let youtubes;
 
-  whereFromPlugin('adapt-youtube - from @@CURRENT_VERSION', { name: 'adapt-youtube', version: '<@@RELEASE_VERSION' });
+  whereFromPlugin('adapt-youtube - from 3.3.5', { name: 'adapt-youtube', version: '<3.3.6' });
 
   whereContent('adapt-youtube - where youtube with invalid _media._aspectRatio or _media._progressColor', async content => {
     youtubes = getComponents('youtube').filter(c => {
@@ -50,25 +50,25 @@ describe('adapt-youtube - @@CURRENT_VERSION to @@RELEASE_VERSION', async () => {
     return true;
   });
 
-  updatePlugin('adapt-youtube - update to @@RELEASE_VERSION', { name: 'adapt-youtube', version: '@@RELEASE_VERSION', framework: '>=5.19.1' });
+  updatePlugin('adapt-youtube - update to 3.3.6', { name: 'adapt-youtube', version: '3.3.6', framework: '>=5.19.1' });
 
   testSuccessWhere('youtube with string _aspectRatio coercible to number', {
-    fromPlugins: [{ name: 'adapt-youtube', version: '@@CURRENT_VERSION' }],
+    fromPlugins: [{ name: 'adapt-youtube', version: '3.3.5' }],
     content: [{ _id: 'c-100', _component: 'youtube', _media: { _aspectRatio: '1.778', _progressColor: 'red' } }]
   });
 
   testSuccessWhere('youtube with string _aspectRatio 1.33', {
-    fromPlugins: [{ name: 'adapt-youtube', version: '@@CURRENT_VERSION' }],
+    fromPlugins: [{ name: 'adapt-youtube', version: '3.3.5' }],
     content: [{ _id: 'c-100', _component: 'youtube', _media: { _aspectRatio: '1.33', _progressColor: 'red' } }]
   });
 
   testSuccessWhere('youtube with _progressColor set to default', {
-    fromPlugins: [{ name: 'adapt-youtube', version: '@@CURRENT_VERSION' }],
+    fromPlugins: [{ name: 'adapt-youtube', version: '3.3.5' }],
     content: [{ _id: 'c-100', _component: 'youtube', _media: { _aspectRatio: 1.778, _progressColor: 'default' } }]
   });
 
   testSuccessWhere('mixed: one component needs both fixes, one needs only aspectRatio, one needs only progressColor', {
-    fromPlugins: [{ name: 'adapt-youtube', version: '@@CURRENT_VERSION' }],
+    fromPlugins: [{ name: 'adapt-youtube', version: '3.3.5' }],
     content: [
       { _id: 'c-100', _component: 'youtube', _media: { _aspectRatio: '1.778', _progressColor: 'default' } },
       { _id: 'c-105', _component: 'youtube', _media: { _aspectRatio: '1.33', _progressColor: 'white' } },
@@ -77,11 +77,11 @@ describe('adapt-youtube - @@CURRENT_VERSION to @@RELEASE_VERSION', async () => {
   });
 
   testStopWhere('incorrect version', {
-    fromPlugins: [{ name: 'adapt-youtube', version: '@@RELEASE_VERSION' }]
+    fromPlugins: [{ name: 'adapt-youtube', version: '3.3.6' }]
   });
 
   testStopWhere('no youtube components with invalid properties', {
-    fromPlugins: [{ name: 'adapt-youtube', version: '@@CURRENT_VERSION' }],
+    fromPlugins: [{ name: 'adapt-youtube', version: '3.3.5' }],
     content: [
       { _id: 'c-100', _component: 'youtube', _media: { _aspectRatio: 1.778, _progressColor: 'red' } },
       { _id: 'c-105', _component: 'youtube', _media: { _aspectRatio: 1.33, _progressColor: 'white' } },
@@ -91,7 +91,7 @@ describe('adapt-youtube - @@CURRENT_VERSION to @@RELEASE_VERSION', async () => {
   });
 
   testStopWhere('no youtube components', {
-    fromPlugins: [{ name: 'adapt-youtube', version: '@@CURRENT_VERSION' }],
+    fromPlugins: [{ name: 'adapt-youtube', version: '3.3.5' }],
     content: [{ _component: 'other' }]
   });
 });
