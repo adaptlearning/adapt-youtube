@@ -101,12 +101,14 @@ export default class YouTubeView extends ComponentView {
   }
 
   /**
-  * this seems to have issues in Chrome if the user is logged into YouTube (possibly any Google account) - the API just doesn't broadcast the events
-  * but instead throws the error:
-  * Failed to execute 'postMessage' on 'DOMWindow': The target origin provided ('https://www.youtube.com') does not match the recipient window's origin ('http://www.youtube.com').
-  * This is documented here:
-  *   https://code.google.com/p/gdata-issues/issues/detail?id=5788
-  * but I haven't managed to get any of the workarounds to work... :-(
+  * Historically, Chrome with a signed-in Google account could silently drop
+  * player state events, throwing:
+  *   Failed to execute 'postMessage' on 'DOMWindow': The target origin provided
+  *   ('https://www.youtube.com') does not match the recipient window's origin
+  *   ('http://www.youtube.com').
+  * Upstream: https://issuetracker.google.com/issues/35174286
+  * (closed Won't Fix / Not Reproducible, 2020). No longer reproducible now that
+  * the page and the YouTube embed are both served over https. Kept for context.
   */
   onPlayerStateChange(e) {
     switch (e.data) {
