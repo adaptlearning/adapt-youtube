@@ -12,21 +12,27 @@
           "type": "object",
           "default": {},
           "properties": {
-            "_youtube": {
+            "_components": {
               "type": "object",
               "default": {},
               "properties": {
-                "ariaRegion": {
-                  "type": "string",
-                  "title": "YouTube: ARIA region",
-                  "default": "This is a media component which displays a YouTube video. Select the play / pause button to watch it.{{#any _transcript._inlineTranscript _transcript._externalTranscript}} An alternative transcript is also available.{{/any}}"
-                },
-                "skipToTranscript": {
-                  "type": "string",
-                  "title": "Skip to transcript",
-                  "default": "Skip to transcript",
-                  "_adapt": {
-                    "translatable": true
+                "_youtube": {
+                  "type": "object",
+                  "default": {},
+                  "properties": {
+                    "ariaRegion": {
+                      "type": "string",
+                      "title": "YouTube: ARIA region",
+                      "default": "This is a media component which displays a YouTube video. Select the play / pause button to watch it.{{#any _transcript._inlineTranscript _transcript._externalTranscript}} An alternative transcript is also available.{{/any}}"
+                    },
+                    "skipToTranscript": {
+                      "type": "string",
+                      "title": "Skip to transcript",
+                      "default": "Skip to transcript",
+                      "_adapt": {
+                        "translatable": true
+                      }
+                    }
                   }
                 }
               }
