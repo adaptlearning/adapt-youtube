@@ -3,23 +3,13 @@ import Adapt from 'core/js/adapt';
 import logging from 'core/js/logging';
 import ComponentView from 'core/js/views/componentView';
 
-export default class YouTubeView extends ComponentView {
-
-  get template() {
-    return 'youtube';
-  }
-
-  events() {
-    return {
-      'click .js-youtube-inline-transcript-toggle': 'onToggleInlineTranscript',
-      'click .js-youtube-external-transcript-click': 'onExternalTranscriptClicked',
-      'click .js-skip-to-transcript': 'onSkipToTranscript'
-    };
-  }
+class YouTubeView extends ComponentView {
 
   initialize() {
+    // Bind before super renders, so the template gets the click handlers
+    _.bindAll(this, 'onPlayerStateChange', 'onPlayerReady', 'onInview', 'onToggleInlineTranscript', 'onExternalTranscriptClicked', 'onSkipToTranscript');
+    this.model.set('_isInlineTranscriptOpen', false);
     super.initialize();
-    _.bindAll(this, 'onPlayerStateChange', 'onPlayerReady', 'onInview');
     this.player = null;
     this.debouncedTriggerGlobalEvent = _.debounce(this.triggerGlobalEvent.bind(this), 1000);
     if (window.onYouTubeIframeAPIReady !== undefined) return;
@@ -152,31 +142,27 @@ export default class YouTubeView extends ComponentView {
    */
   onToggleInlineTranscript(event) {
     if (event) event.preventDefault();
-    const $transcriptBodyContainer = this.$('.youtube__transcript-body-inline');
-    const $button = this.$('.youtube__transcript-btn-inline');
-    const $buttonText = $button.find('.youtube__transcript-btn-text');
+    const isOpen = this.model.get('_isInlineTranscriptOpen');
+    this.model.set('_isInlineTranscriptOpen', !isOpen);
+    const $transcriptBodyContainer = this.$('.youtube__transcript-body-inline').stop(true, true);
 
-    if ($transcriptBodyContainer.hasClass('inline-transcript-open')) {
-      $transcriptBodyContainer.stop(true, true).slideUp(() => {
+    if (isOpen) {
+      $transcriptBodyContainer.slideUp(() => {
         $(window).resize();
-      }).removeClass('inline-transcript-open');
-      $button.attr('aria-expanded', false);
-      $buttonText.html(this.model.get('_transcript').inlineTranscriptButton);
+      });
       this.transcriptTriggers('closed');
 
       return;
     }
 
-    $transcriptBodyContainer.stop(true, true).slideDown(() => {
+    $transcriptBodyContainer.slideDown(() => {
       $(window).resize();
-    }).addClass('inline-transcript-open');
-
-    $button.attr('aria-expanded', true);
-    $buttonText.html(this.model.get('_transcript').inlineTranscriptCloseButton);
+    });
     this.transcriptTriggers('opened');
   }
 
-  onExternalTranscriptClicked(event) {
+  onExternalTranscriptClicked() {
+    window.open(this.model.get('_transcript').transcriptLink);
     this.transcriptTriggers('external');
   }
 
@@ -202,3 +188,7 @@ export default class YouTubeView extends ComponentView {
   }
 
 }
+
+YouTubeView.template = 'youtube.jsx';
+
+export default YouTubeView;
